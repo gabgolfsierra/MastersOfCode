@@ -1,4 +1,4 @@
-import { Button, TextField, Link as MuiLink } from "@mui/material";
+import { Button, TextField, Link as MuiLink, Typography, Box, Paper } from "@mui/material";
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router";
@@ -37,37 +37,62 @@ const LoginForm: React.FC = () => {
   };
 
   return (
-    <div className="flex justify-center items-center flex-col h-screen gap-8">
-      <h1 className="text-6xl">Masters Of Code</h1>
-      <div className="flex flex-col gap-2">
+    <Box
+      display="flex"
+      flexDirection="column"
+      justifyContent="center"
+      alignItems="center"
+      height="100vh"
+      bgcolor="#424242"
+      
+      padding={2}
+    >
+      <Typography fontFamily={"-moz-initial"} variant="h2" color="#212121" gutterBottom>
+        MASTERS OF CODE
+      </Typography>
+      <Paper
+        elevation={3}
+        sx={{ display: 'flex', flexDirection: 'column', gap: 2, width: 320, p: 3, bgcolor: 'black' }}
+      >
         <TextField
           label="Email"
-          className="w-80"
           type="email"
           required
           helperText={emailErrored && "Please enter a valid Email."}
           value={email}
           onChange={(event) => setEmail(event.target.value)}
           error={emailErrored}
+          fullWidth
         />
         <TextField
           label="Password"
           type="password"
-          className="w-80"
           required
           helperText={passwordErrored && "Password may not be empty."}
           value={password}
           onChange={(event) => setPassword(event.target.value)}
           error={passwordErrored}
+          fullWidth
         />
-        <Link to="/signup" className="justify-self-start self-start mt-2">
-          <MuiLink>Sign Up</MuiLink>
-        </Link>
-      </div>
-      <Button variant="contained" className="w-80" onClick={handleLogin}>
-        <span className="p-1">Login</span>
+        <Box textAlign="left">
+          <Link to="/signup">
+            <MuiLink component="span" variant="body2" color="info.main">
+              Don't have an account? Sign Up
+            </MuiLink>
+          </Link>
+        </Box>
+      </Paper>
+      <Button
+        
+        variant="contained"
+        color="success"
+        onClick={handleLogin}
+        fullWidth
+        sx={{ width: 320, mt: 2 }}
+      >
+        Login
       </Button>
-    </div>
+    </Box>
   );
 };
 
