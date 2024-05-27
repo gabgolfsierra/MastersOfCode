@@ -52,7 +52,7 @@ const LoginForm: React.FC = () => {
       </Typography>
       <Paper
         elevation={3}
-        sx={{ display: 'flex', flexDirection: 'column', gap: 2, width: 320, p: 3, bgcolor: 'black' }}
+        sx={{ display: 'flex', flexDirection: 'column', gap: 2, width: 320, p: 3, bgcolor: 'white' }}
       >
         <TextField
           label="Email"
