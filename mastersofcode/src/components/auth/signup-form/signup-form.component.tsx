@@ -2,11 +2,11 @@ import { Button, TextField, Link as MuiLink, Box, Paper, Typography, IconButton,
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router";
-import { User } from "../../../../models/User";
-import { useLoginMutation } from "../../../../apis/auth.api";
-import { useCreateUserMutation } from "../../../../apis/users.api";
-import { useAppDispatch } from "../../../../app/hooks";
-import { setAuthState } from "../../../../slices/auth.slice";
+import { User } from "../../../models/User";
+import { useLoginMutation } from "../../../apis/auth.api";
+import { useCreateUserMutation } from "../../../apis/users.api";
+import { useAppDispatch } from "../../../app/hooks";
+import { setAuthState } from "../../../slices/auth.slice";
 import { Visibility, VisibilityOff } from '@mui/icons-material';
 
 const SignupForm: React.FC = () => {
@@ -87,7 +87,7 @@ const SignupForm: React.FC = () => {
       </Typography>
       <Paper
         elevation={3}
-        sx={{ display: 'flex', flexDirection: 'column', gap: 2, width: 320, p: 3, bgcolor: 'black' }}
+        sx={{ display: 'flex', flexDirection: 'column', gap: 2, width: 320, p: 3, bgcolor: 'white' }}
       >
         <TextField
           label="Email"

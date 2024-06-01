@@ -8,11 +8,6 @@ import { useAppDispatch } from "./app/hooks";
 import { useNavigate } from "react-router";
 import { setAuthState } from "./slices/auth.slice";
 
-const darkTheme = createTheme({
-  palette: {
-    mode: "dark",
-  },
-});
 
 function App() {
   const { data: user } = useGetUserQuery(undefined);
@@ -27,9 +22,8 @@ function App() {
   }, [user, dispatch, navigate]);
 
   return (
-    <ThemeProvider theme={darkTheme}>
       <Routes />
-    </ThemeProvider>
+   
   );
 }
 
