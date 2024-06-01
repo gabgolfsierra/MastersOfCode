@@ -35,7 +35,7 @@ const CdMirror: React.FC = () => {
   const classes = useStyles();
   const [code, setCode] = useState('const a = 0;');
 
-  const submitCode = async (code: any) => {
+  const submitCode = async (event: any) => {
     try {
       const response = await axios.post("http://localhost:3002/code", { code });
       console.log(response.data);
@@ -55,8 +55,9 @@ const CdMirror: React.FC = () => {
           value={code}
           theme={dracula}
           height="200px"
+          extensions={[javascript({ jsx: true })]}
           onChange={(editor, change) => {
-            setCode(editor.valueOf());
+            setCode(editor);
           }}
         />
       </div>
