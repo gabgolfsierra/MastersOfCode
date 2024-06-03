@@ -1,19 +1,32 @@
-import { Button, TextField, Link as MuiLink, Typography, Box, Paper } from "@mui/material";
 import React from "react";
-import { useAppSelector } from "../app/hooks";
-import { selectCurrentUser } from "../slices/auth.slice";
+import { Button, Typography, Box, Paper, Link } from "@mui/material";
 import { CdMirror } from "../components/code-mirror.component";
+import { makeStyles } from "@mui/styles";
+
+const useStyles = makeStyles((theme) => ({
+  root: {
+    width: "80%",
+    margin: "auto",
+    
+  },
+  title: {
+    bottom: 200,
+    color: "#3f51b5",
+  },
+}));
 
 const HomePage: React.FC = () => {
-  const user = useAppSelector((state) => selectCurrentUser(state));
+  const classes = useStyles();
 
   return (
-    
-     <>
-     <Typography fontFamily={"-moz-initial"} variant="h2" color="#212121" gutterBottom>
-      Welcome to Masters Of Code!
-    </Typography><CdMirror /></>
-    
+    <Paper elevation={3} className={classes.root}>
+      <Typography variant="h2" className={classes.title}>
+        Welcome to Masters Of Code!
+      </Typography>
+      <Box>
+        <CdMirror />
+      </Box>
+    </Paper>
   );
 };
 
