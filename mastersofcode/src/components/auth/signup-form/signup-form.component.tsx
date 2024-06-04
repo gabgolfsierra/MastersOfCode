@@ -8,6 +8,7 @@ import { useCreateUserMutation } from "../../../apis/users.api";
 import { useAppDispatch } from "../../../app/hooks";
 import { setAuthState } from "../../../slices/auth.slice";
 import { Visibility, VisibilityOff } from '@mui/icons-material';
+import MuiAlert from '@mui/material/Alert';
 
 const SignupForm: React.FC = () => {
   const [email, setEmail] = useState("");
@@ -21,6 +22,8 @@ const SignupForm: React.FC = () => {
 
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+
+  const [successAlert, setSuccessAlert] = useState(false); 
 
   const [createUser] = useCreateUserMutation();
   const [login] = useLoginMutation();
@@ -56,7 +59,8 @@ const SignupForm: React.FC = () => {
         await createUser({ email, password });
         const response = (await login({ email, password })) as { data: User };
         dispatch(setAuthState({ user: response.data }));
-        navigate("/");
+        setSuccessAlert(true);
+        navigate("/login");
       } catch (err) {
         console.error(err);
       }
@@ -78,16 +82,17 @@ const SignupForm: React.FC = () => {
       justifyContent="center"
       alignItems="center"
       height="100vh"
-      bgcolor="#424242"
+      bgcolor="#281332" 
       padding={2}
-      gap={2}
+      fontFamily="Roboto, sans-serif" 
+      color="white" 
     >
-      <Typography fontFamily={"-moz-initial"} variant="h2" color="#212121" gutterBottom>
+      <Typography variant="h2" color="white" gutterBottom style={{ fontFamily: 'Montserrat, sans-serif' }}> 
         Create your account
       </Typography>
       <Paper
         elevation={3}
-        sx={{ display: 'flex', flexDirection: 'column', gap: 2, width: 320, p: 3, bgcolor: 'white' }}
+        sx={{ display: 'flex', flexDirection: 'column', gap: 2, width: 320, p: 3, bgcolor: 'white', borderRadius: '8px' }}
       >
         <TextField
           label="Email"
@@ -147,7 +152,7 @@ const SignupForm: React.FC = () => {
         />
         <Box textAlign="left" mt={2}>
           <Link to="/login">
-            <MuiLink component="span" variant="body2" color="info.main">
+            <MuiLink component="span" variant="body2" color="primary">
               Return to login page
             </MuiLink>
           </Link>
@@ -155,12 +160,22 @@ const SignupForm: React.FC = () => {
       </Paper>
       <Button
         variant="contained"
-        color="success"
+        color="secondary"
         onClick={handleSignup}
-        sx={{ width: 320, mt: 2}}
+        sx={{ width: 320, mt: 2, bgcolor: '#2c2c2c'}}
       >
         Sign Up
       </Button>
+      {successAlert && (
+        <MuiAlert
+          elevation={6}
+          variant="filled"
+          onClose={() => setSuccessAlert(false)}
+          severity="success"
+        >
+          User created successfully!
+        </MuiAlert>
+      )}
     </Box>
   );
 };

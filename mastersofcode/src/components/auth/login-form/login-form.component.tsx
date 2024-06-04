@@ -43,16 +43,17 @@ const LoginForm: React.FC = () => {
       justifyContent="center"
       alignItems="center"
       height="100vh"
-      bgcolor="#424242"
-      
+      bgcolor="#281332" 
       padding={2}
+      fontFamily="monospace" 
+      color="white" 
     >
-      <Typography fontFamily={"-moz-initial"} variant="h2" color="#212121" gutterBottom>
+      <Typography variant="h2" color="white" gutterBottom style={{ fontFamily: 'monospace' }}> 
         MASTERS OF CODE
       </Typography>
       <Paper
         elevation={3}
-        sx={{ display: 'flex', flexDirection: 'column', gap: 2, width: 320, p: 3, bgcolor: 'white' }}
+        sx={{ display: 'flex', flexDirection: 'column', gap: 2, width: 320, p: 3, bgcolor: 'white', borderRadius: '8px' }}
       >
         <TextField
           label="Email"
@@ -76,19 +77,18 @@ const LoginForm: React.FC = () => {
         />
         <Box textAlign="left">
           <Link to="/signup">
-            <MuiLink component="span" variant="body2" color="info.main">
+            <MuiLink component="span" variant="body2" color="primary">
               Don't have an account? Sign Up
             </MuiLink>
           </Link>
         </Box>
       </Paper>
       <Button
-        
         variant="contained"
-        color="success"
+        color="secondary"
         onClick={handleLogin}
         fullWidth
-        sx={{ width: 320, mt: 2 }}
+        sx={{ width: 320, mt: 2, bgcolor: '#2c2c2c' }}
       >
         Login
       </Button>

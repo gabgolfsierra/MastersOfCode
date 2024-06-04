@@ -719,6 +719,34 @@
     "@jridgewell/resolve-uri" "^3.0.3"
     "@jridgewell/sourcemap-codec" "^1.4.10"
 
+"@lezer/common@^1.0.0", "@lezer/common@^1.2.0":
+  "integrity" "sha512-yemX0ZD2xS/73llMZIK6KplkjIjf2EvAHcinDi/TfJ9hS25G0388+ClHt6/3but0oOxinTcQHJLDXh6w1crzFQ=="
+  "resolved" "https://registry.npmjs.org/@lezer/common/-/common-1.2.1.tgz"
+  "version" "1.2.1"
+
+"@lezer/highlight@^1.0.0":
+  "integrity" "sha512-WrS5Mw51sGrpqjlh3d4/fOwpEV2Hd3YOkp9DBt4k8XZQcoTHZFB7sx030A6OcahF4J1nDQAa3jXlTVVYH50IFA=="
+  "resolved" "https://registry.npmjs.org/@lezer/highlight/-/highlight-1.2.0.tgz"
+  "version" "1.2.0"
+  dependencies:
+    "@lezer/common" "^1.0.0"
+
+"@lezer/lr@^1.0.0":
+  "integrity" "sha512-CHsKq8DMKBf9b3yXPDIU4DbH+ZJd/sJdYOW2llbW/HudP5u0VS6Bfq1hLYfgU7uAYGFIyGGQIsSOXGPEErZiJw=="
+  "resolved" "https://registry.npmjs.org/@lezer/lr/-/lr-1.4.1.tgz"
+  "version" "1.4.1"
+  dependencies:
+    "@lezer/common" "^1.0.0"
+
+"@lezer/python@^1.1.14":
+  "integrity" "sha512-ykDOb2Ti24n76PJsSa4ZoDF0zH12BSw1LGfQXCYJhJyOGiFTfGaX0Du66Ze72R+u/P35U+O6I9m8TFXov1JzsA=="
+  "resolved" "https://registry.npmjs.org/@lezer/python/-/python-1.1.14.tgz"
+  "version" "1.1.14"
+  dependencies:
+    "@lezer/common" "^1.2.0"
+    "@lezer/highlight" "^1.0.0"
+    "@lezer/lr" "^1.0.0"
+
 "@ljharb/through@^2.3.11", "@ljharb/through@^2.3.12":
   "integrity" "sha512-/gKJun8NNiWGZJkGzI/Ragc53cOdcLNdzjLaIa+GEjguQs0ulsurx8WN0jijdK9yPqDvziX995sMRLyLt1uZMQ=="
   "resolved" "https://registry.npmjs.org/@ljharb/through/-/through-2.3.13.tgz"

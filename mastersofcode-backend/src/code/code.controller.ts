@@ -1,14 +1,15 @@
 import { Controller, Get, Post, Body, Request, Response } from '@nestjs/common';
-import { AppService } from './app.service';
+
 import { exec } from 'child_process';
+import { CodeService } from './code.service';
 const fs = require('fs');
 
-@Controller()
-export class AppController {
-  constructor(private readonly appService: AppService) { }
+@Controller('/challenge')
+export class CodeController {
+  constructor(private readonly codeService: CodeService) { }
 
 
-  @Post('/challenge/1')
+  @Post('/1')
   async CodeReceiver(@Request() req, @Response() res): Promise<any> {
     const userCode = req.body.code;
 

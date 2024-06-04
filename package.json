@@ -1,0 +1,7 @@
+{
+  "dependencies": {
+    "@codemirror/lang-python": "^6.1.6",
+    "@lezer/python": "^1.1.14",
+    "@mui/styles": "^5.15.19"
+  }
+}
