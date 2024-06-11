@@ -3,6 +3,7 @@ import { SignupForm } from "../components/auth/login-form/signup-form/signup-for
 
 
 
+
 const SignupPage: React.FC = () => {
   return <SignupForm />;
 };

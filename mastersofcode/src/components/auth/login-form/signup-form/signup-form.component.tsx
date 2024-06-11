@@ -19,6 +19,9 @@ const SignupForm: React.FC = () => {
   const [confirmPassword, setConfirmPassword] = useState("");
   const [confirmPasswordErrored, setConfirmPasswordErrored] = useState(false);
 
+  const [username, setUsername] = useState("");
+  const [usernameErrored, setUsernameErrored] = useState(false);
+
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
@@ -51,9 +54,16 @@ const SignupForm: React.FC = () => {
       setConfirmPasswordErrored(false);
     }
 
+    if (!username) {
+      setUsernameErrored(true);
+      isValid = false;
+    } else {
+      setUsernameErrored(false);
+    }
+
     if (isValid) {
       try {
-        await createUser({ email, password });
+        await createUser({ email, password, username });
         const response = (await login({ email, password })) as { data: User };
         dispatch(setAuthState({ user: response.data }));
         navigate("/");
@@ -97,6 +107,16 @@ const SignupForm: React.FC = () => {
           value={email}
           onChange={(event) => setEmail(event.target.value)}
           error={emailErrored}
+          fullWidth
+        />
+        <TextField
+          label="Username"
+          type="text"
+          required
+          helperText={usernameErrored && "Username may not be empty."}
+          value={username}
+          onChange={(event) => setUsername(event.target.value)}
+          error={usernameErrored}
           fullWidth
         />
         <TextField

@@ -12,6 +12,7 @@ const LoginForm: React.FC = () => {
   const [emailErrored, setEmailErrored] = useState(false);
   const [password, setPassword] = useState("");
   const [passwordErrored, setPasswordErrored] = useState(false);
+  const [errorMessage, setErrorMessage] = useState<string | null>(null); // Novo estado para mensagem de erro
   const [login] = useLoginMutation();
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
@@ -27,12 +28,16 @@ const LoginForm: React.FC = () => {
     } else {
       setPasswordErrored(false);
     }
+    if (!email || !password) {
+      return;
+    }
     try {
       const response = (await login({ email, password })) as { data: User };
       dispatch(setAuthState({ user: response.data }));
       navigate("/");
-    } catch (err) {
+    } catch (err: any) {
       console.error(err);
+      setErrorMessage("Login failed. Please check your email and password."); // Definir mensagem de erro
     }
   };
 
@@ -43,11 +48,20 @@ const LoginForm: React.FC = () => {
       justifyContent="center"
       alignItems="center"
       height="100vh"
+<<<<<<< Updated upstream
       bgcolor="#424242"
       
       padding={2}
     >
       <Typography fontFamily={"-moz-initial"} variant="h2" color="#212121" gutterBottom>
+=======
+      bgcolor="#281332"
+      padding={2}
+      fontFamily="monospace"
+      color="white"
+    >
+      <Typography variant="h2" color="white" gutterBottom style={{ fontFamily: 'monospace' }}>
+>>>>>>> Stashed changes
         MASTERS OF CODE
       </Typography>
       <Paper
@@ -74,6 +88,11 @@ const LoginForm: React.FC = () => {
           error={passwordErrored}
           fullWidth
         />
+        {errorMessage && ( // Exibir mensagem de erro se existir
+          <Typography variant="body2" color="error" style={{ marginTop: '10px', textAlign: 'center' }}>
+            {errorMessage}
+          </Typography>
+        )}
         <Box textAlign="left">
           <Link to="/signup">
             <MuiLink component="span" variant="body2" color="info.main">

@@ -2,7 +2,6 @@
   "name": "mastersofcode",
   "version": "0.1.0",
   "private": true,
-  "proxy": "http://localhost:3002",
   "dependencies": {
     "@codemirror/lang-javascript": "^6.2.2",
     "@emotion/react": "^11.11.4",
