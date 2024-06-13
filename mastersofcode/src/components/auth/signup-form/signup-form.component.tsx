@@ -2,13 +2,14 @@ import { Button, TextField, Link as MuiLink, Box, Paper, Typography, IconButton,
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router";
-import { User } from "../../../models/User";
+
+import { Visibility, VisibilityOff } from '@mui/icons-material';
 import { useLoginMutation } from "../../../apis/auth.api";
 import { useCreateUserMutation } from "../../../apis/users.api";
 import { useAppDispatch } from "../../../app/hooks";
+import { User } from "../../../models/User";
 import { setAuthState } from "../../../slices/auth.slice";
-import { Visibility, VisibilityOff } from '@mui/icons-material';
-import MuiAlert from '@mui/material/Alert';
+
 
 const SignupForm: React.FC = () => {
   const [email, setEmail] = useState("");
@@ -20,10 +21,11 @@ const SignupForm: React.FC = () => {
   const [confirmPassword, setConfirmPassword] = useState("");
   const [confirmPasswordErrored, setConfirmPasswordErrored] = useState(false);
 
+  const [username, setUsername] = useState("");
+  const [usernameErrored, setUsernameErrored] = useState(false);
+
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
-
-  const [successAlert, setSuccessAlert] = useState(false); 
 
   const [createUser] = useCreateUserMutation();
   const [login] = useLoginMutation();
@@ -54,13 +56,19 @@ const SignupForm: React.FC = () => {
       setConfirmPasswordErrored(false);
     }
 
+    if (!username) {
+      setUsernameErrored(true);
+      isValid = false;
+    } else {
+      setUsernameErrored(false);
+    }
+
     if (isValid) {
       try {
-        await createUser({ email, password });
+        await createUser({ email, password, username });
         const response = (await login({ email, password })) as { data: User };
         dispatch(setAuthState({ user: response.data }));
-        setSuccessAlert(true);
-        navigate("/login");
+        navigate("/");
       } catch (err) {
         console.error(err);
       }
@@ -82,12 +90,12 @@ const SignupForm: React.FC = () => {
       justifyContent="center"
       alignItems="center"
       height="100vh"
+      fontFamily="monospace" 
       bgcolor="#281332" 
       padding={2}
-      fontFamily="Roboto, sans-serif" 
-      color="white" 
+      gap={2}
     >
-      <Typography variant="h2" color="white" gutterBottom style={{ fontFamily: 'Montserrat, sans-serif' }}> 
+      <Typography variant="h2" color="white" gutterBottom style={{ fontFamily: 'monospace' }}> 
         Create your account
       </Typography>
       <Paper
@@ -102,6 +110,16 @@ const SignupForm: React.FC = () => {
           value={email}
           onChange={(event) => setEmail(event.target.value)}
           error={emailErrored}
+          fullWidth
+        />
+        <TextField
+          label="Username"
+          type="text"
+          required
+          helperText={usernameErrored && "Username may not be empty."}
+          value={username}
+          onChange={(event) => setUsername(event.target.value)}
+          error={usernameErrored}
           fullWidth
         />
         <TextField
@@ -152,30 +170,21 @@ const SignupForm: React.FC = () => {
         />
         <Box textAlign="left" mt={2}>
           <Link to="/login">
-            <MuiLink component="span" variant="body2" color="primary">
+            <MuiLink component="span" variant="body2" color="info.main">
               Return to login page
             </MuiLink>
           </Link>
         </Box>
       </Paper>
       <Button
-        variant="contained"
-        color="secondary"
-        onClick={handleSignup}
-        sx={{ width: 320, mt: 2, bgcolor: '#2c2c2c'}}
+         variant="contained"
+         color="secondary"
+         onClick={handleSignup}
+         fullWidth
+         sx={{ width: 320, mt: 2, bgcolor: '#2c2c2c' }}
       >
         Sign Up
       </Button>
-      {successAlert && (
-        <MuiAlert
-          elevation={6}
-          variant="filled"
-          onClose={() => setSuccessAlert(false)}
-          severity="success"
-        >
-          User created successfully!
-        </MuiAlert>
-      )}
     </Box>
   );
 };

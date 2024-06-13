@@ -3,12 +3,12 @@ import { AppService } from './app.service';
 import { exec } from 'child_process';
 const fs = require('fs');
 
-@Controller()
+@Controller('/challenge')
 export class AppController {
   constructor(private readonly appService: AppService) { }
 
 
-  @Post('/challenge/1')
+  @Post('/1')
   async CodeReceiver(@Request() req, @Response() res): Promise<any> {
     const userCode = req.body.code;
 
@@ -57,3 +57,5 @@ export class AppController {
     });
   }
 }
+
+
