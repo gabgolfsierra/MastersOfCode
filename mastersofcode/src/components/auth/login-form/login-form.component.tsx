@@ -48,20 +48,12 @@ const LoginForm: React.FC = () => {
       justifyContent="center"
       alignItems="center"
       height="100vh"
-<<<<<<< Updated upstream
       bgcolor="#424242"
       
       padding={2}
     >
       <Typography fontFamily={"-moz-initial"} variant="h2" color="#212121" gutterBottom>
-=======
-      bgcolor="#281332"
-      padding={2}
-      fontFamily="monospace"
-      color="white"
-    >
-      <Typography variant="h2" color="white" gutterBottom style={{ fontFamily: 'monospace' }}>
->>>>>>> Stashed changes
+
         MASTERS OF CODE
       </Typography>
       <Paper
