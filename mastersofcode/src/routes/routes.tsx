@@ -7,6 +7,7 @@ import { SignupPage } from "../pages/signup.page";
 import { Challenge1 } from "../components/challenges/challenge1.component";
 import { Challenge2 } from "../components/challenges/challenge2.component";
 import { ProtectedRoute } from "./protected.route";
+import { Challenge3 } from "../components/challenges/challenge3.component";
 
 
 
@@ -20,6 +21,7 @@ const Routes: React.FC = () => {
         <Route path="signup" element={<SignupPage />} />
         <Route path="challenge/1" element={<Challenge1 />} />
         <Route path="challenge/2" element={<Challenge2 />} />
+        <Route path="challenge/3" element={<Challenge3 />} />
       </ReactRouterRoutes>
 
   );

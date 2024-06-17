@@ -150,12 +150,24 @@ const Challenge1: React.FC = () => {
             </MuiAlert>
           </Snackbar>
         ))}
+        {errorLogs.map((log, index) => (
+          <Snackbar
+            key={index}
+            open={open}
+            autoHideDuration={8000}
+            onClose={handleClose}
+            anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
+          >
+            <MuiAlert onClose={handleClose} severity="error">
+              Error: {log}
+            </MuiAlert>
+          </Snackbar>
+        ))}
       </React.Fragment>
     );
   };
 
   return (
-    
     <Box className={classes.root}>
       <Container className={classes.editorContainer}>
         <Typography variant="h6" className={classes.title}>
@@ -244,8 +256,8 @@ const Challenge1: React.FC = () => {
           <div style={{ width: '10px', height: '10px', backgroundColor: 'green', marginLeft: '10px' , marginBottom: '6px'}}></div>
         </div>
       </Container>
+      {renderTestResults()}
     </Box>
-   
   );
 }
 

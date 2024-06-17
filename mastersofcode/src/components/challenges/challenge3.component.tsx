@@ -61,10 +61,10 @@ const useStyles = makeStyles(() => ({
   }));
   
 
-  const Challenge2: React.FC = () => {
+  const Challenge3: React.FC = () => {
     const classes = useStyles();
     const theme = useTheme();
-    const [code, setCode] = useState('function fizzBuzz(n) { \n\n\n //Your code here \n\n\n }\n\n\n\n module.exports = { fizzBuzz }; ');
+    const [code, setCode] = useState('var reverseString = function(s) { \n\n\n //Your code here \n\n\n }\n\n\n\n module.exports = { reverseString }; ');
     interface TestResult {
         passes: { fullTitle: string }[];
         failures: { fullTitle: string, err: { message: string, stack: string } }[];
@@ -85,7 +85,7 @@ const useStyles = makeStyles(() => ({
     const submitCode = async () => {
         try {
             setLoading(true);
-            const response = await axios.post("http://localhost:3002/challenge/2", { code });
+            const response = await axios.post("http://localhost:3002/challenge/3", { code });
             console.log(response.data);
             setTestResults(response.data.output);
         } catch (error: any) {
@@ -179,11 +179,7 @@ const useStyles = makeStyles(() => ({
         <Box className={classes.root}>
             <Container className={classes.editorContainer}>
                 <Typography variant="h6" className={classes.title}>
-                Given an integer n, return a string array answer (1-indexed) where: 
-                "Fizz" if i is divisible by 3.
-                "Buzz" if i is divisible by 5.
-                "FizzBuzz" if i is divisible by 3 and 5. 
-                i (as a string) if none of the above conditions are true.
+                Write a function that reverses a string. The input string is given as an array of characters s.
                 </Typography>
                 <div className={classes.codeMirror}>
                     <CodeMirror
@@ -227,10 +223,10 @@ const useStyles = makeStyles(() => ({
                             </Typography>
                             <div style={{ display: 'flex', flexDirection: 'column' }}>
                                 <Typography variant="overline" className={classes.par}>
-                                    Input: n = 3
+                                    Input: s = ["h", "e", "l", "l", "o"]
                                 </Typography>
                                 <Typography variant="overline" className={classes.par}>
-                                    Output: ["1", "2", "Fizz"]
+                                    Output: ["o", "l", "l", "e", "h"]
                                 </Typography>
                             </div>
                         </div>
@@ -241,29 +237,15 @@ const useStyles = makeStyles(() => ({
                             </Typography>
                             <div style={{ display: 'flex', flexDirection: 'column' }}>
                                 <Typography variant="overline" className={classes.par}>
-                                    Input: n = 5
+                                    Input: s = ["H", "a", "n", "n", "a", "h"]
                                 </Typography>
                                 <Typography variant="overline" className={classes.par}>
-                                    Output: ["1", "2", "Fizz", "4", "Buzz"]
+                                    Output: ["h", "a", "n", "n", "a", "H"]
                                 </Typography>
                             </div>
                         </div>
                     </div>
 
-                    <div style={{ marginBottom: '20px' }}>
-                        <Typography variant="body1" className={classes.title}>
-                            Example 3:
-                        </Typography>
-                        <div style={{ display: 'flex', flexDirection: 'column' }}>
-                            <Typography variant="overline" className={classes.par}>
-                                Input: n = 15
-                            </Typography>
-                            <Typography variant="overline" className={classes.par}>
-                                ["1", "2", "Fizz", "4", "Buzz", "Fizz", "7", "8",
-                                "Fizz", "Buzz", "11", "Fizz", "13", "14", "FizzBuzz"]
-                            </Typography>
-                        </div>
-                    </div>
                 </div>
 
                 <div style={{ position: 'relative', marginBottom: '20px', display: 'flex', alignItems: 'flex-end', justifyContent: 'flex-end' }}>
@@ -277,5 +259,5 @@ const useStyles = makeStyles(() => ({
     );
 }
 
-export { Challenge2 };
+export { Challenge3 };
 
