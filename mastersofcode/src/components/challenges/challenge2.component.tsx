@@ -6,6 +6,7 @@ import CodeMirror from '@uiw/react-codemirror';
 import { javascript } from '@codemirror/lang-javascript';
 import { dracula } from '@uiw/codemirror-theme-dracula';
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 const useStyles = makeStyles(() => ({
     root: {
@@ -61,8 +62,9 @@ const useStyles = makeStyles(() => ({
   }));
   
 
-  const Challenge2: React.FC = () => {
+const Challenge2: React.FC = () => {
     const classes = useStyles();
+    const navigate = useNavigate();
     const theme = useTheme();
     const [code, setCode] = useState('function fizzBuzz(n) { \n\n\n //Your code here \n\n\n }\n\n\n\n module.exports = { fizzBuzz }; ');
     interface TestResult {
@@ -122,8 +124,18 @@ const useStyles = makeStyles(() => ({
             setMessages([...passMessages, ...failMessages ]);
             setOpen(true);
             setLoading(false);
-        }
-    }, [testResults]);
+
+            setTimeout(() => {
+                const completedChallenges =
+                  JSON.parse(localStorage.getItem("completedChallenges") || "[]") || [];
+                localStorage.setItem(
+                  "completedChallenges",
+                  JSON.stringify([...completedChallenges, "Reverse String"])
+                );
+                navigate("/");
+              }, 3000);
+            }
+          }, [testResults, navigate]);
 
     const handleClose = () => {
         setOpen(false);

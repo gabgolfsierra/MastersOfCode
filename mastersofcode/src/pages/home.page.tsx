@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Typography,
   Box,
@@ -19,6 +19,7 @@ import { Link } from "react-router-dom";
 import MenuIcon from "@mui/icons-material/Menu";
 import styled from "@emotion/styled";
 import useStyles from "../styles";
+import challenges from "../components/challengesList.component";
 
 const StyledPaper = styled(Paper)`
   && {
@@ -36,24 +37,21 @@ const StyledPaper = styled(Paper)`
   }
 `;
 
-const challenges = [
-  { name: "1. Add Two Numbers", difficulty: "Intern", points: "25 points" },
-  { name: "2. FizzBuzz", difficulty: "Junior", points: "50 points" },
-  { name: "3. Reverse String", difficulty: "Junior", points: "50 points" },
-  { name: "4. Testando", difficulty: "Middle", points: "100 points" },
-  { name: "6. Testando", difficulty: "Senior", points: "500 points" },
-  { name: "7. Testando", difficulty: "Senior", points: "500 points" },
-  { name: "8. Testando", difficulty: "Senior", points: "500 points" },
-  { name: "9. Testando", difficulty: "Senior", points: "500 points" },
-];
+
 
 const HomePage: React.FC = () => {
   const classes = useStyles();
   const [difficultyFilter, setDifficultyFilter] = useState<string>("");
+  const [completedChallenges, setCompletedChallenges] = useState<string[]>([]);
 
   const handleFilterChange = (event: SelectChangeEvent<string>) => {
     setDifficultyFilter(event.target.value);
   };
+
+  useEffect(() => {
+    const completed = JSON.parse(localStorage.getItem("completedChallenges") || "[]");
+    setCompletedChallenges(completed);
+  }, []);
 
 
   const filteredChallenges = challenges.filter(
@@ -120,6 +118,7 @@ const HomePage: React.FC = () => {
                   component={Link}
                   to={`/challenge/${index + 1}`}
                   className={`${classes.listItem} ${challenge.difficulty.toLowerCase()}`}
+                  style={{ pointerEvents: completedChallenges.includes(challenge.name) ? "none" : "auto", opacity: completedChallenges.includes(challenge.name) ? 0.5 : 1 }}
                 >
                   <ListItemText primary={challenge.name} />
                   <Box>
@@ -127,11 +126,18 @@ const HomePage: React.FC = () => {
                       {challenge.points}
                     </Typography>
                   </Box>
-                  <Box>
-                    <Typography variant="body2" className={classes.difficulty}>
+                  <Box className={classes.difficulty}>
+                    <Typography variant="body2" >
                       Difficulty: {challenge.difficulty}
                     </Typography>
                   </Box>
+                  {completedChallenges.includes(challenge.name) && (
+                    <Box>
+                      <Typography variant="body2" className={classes.difficulty} color="green">
+                        Completed
+                      </Typography>
+                    </Box>
+                  )}
                 </ListItem>
               </StyledPaper>
             ))}

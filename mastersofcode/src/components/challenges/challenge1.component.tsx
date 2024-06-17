@@ -6,6 +6,7 @@ import CodeMirror from '@uiw/react-codemirror';
 import { javascript } from '@codemirror/lang-javascript';
 import { dracula } from '@uiw/codemirror-theme-dracula';
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 const useStyles = makeStyles(() => ({
   root: {
@@ -63,6 +64,7 @@ const useStyles = makeStyles(() => ({
 const Challenge1: React.FC = () => {
   const classes = useStyles();
   const theme = useTheme();
+  const navigate = useNavigate();
   const [code, setCode] = useState('function sum(a, b) { \n\n\n //Your code here \n\n\n }\n\n\n\n module.exports = { sum }; ');
 
   interface TestResult {
@@ -88,6 +90,8 @@ const Challenge1: React.FC = () => {
       const response = await axios.post("http://localhost:3002/challenge/1", { code });
       console.log(response.data);
       setTestResults(response.data.output);
+
+      
     } catch (error: any) {
       console.error("Error to send your code: ", error);
       setTestResults(null);
@@ -122,8 +126,18 @@ const Challenge1: React.FC = () => {
       setMessages([...passMessages, ...failMessages]);
       setOpen(true);
       setLoading(false); 
+      
+      setTimeout(() => {
+        const completedChallenges =
+          JSON.parse(localStorage.getItem("completedChallenges") || "[]") || [];
+        localStorage.setItem(
+          "completedChallenges",
+          JSON.stringify([...completedChallenges, "Reverse String"])
+        );
+        navigate("/");
+      }, 3000);
     }
-  }, [testResults]);
+  }, [testResults, navigate]);
 
   const handleClose = () => {
     setOpen(false);

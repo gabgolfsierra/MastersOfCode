@@ -38,7 +38,7 @@ const useStyles = makeStyles({
     overflowY: "auto",
     overflowX: "hidden",
     "&::-webkit-scrollbar": {
-      width: "12px",
+      width: "2px",
     },
     "&::-webkit-scrollbar-track": {
       background: "rgba(0, 0, 0, 1)",
@@ -76,11 +76,13 @@ const useStyles = makeStyles({
   difficulty: {
     color: "white",
     fontFamily: "monospace",
-    textAlign: "right",
+    paddingRight: "30px",
   },
   points: {
     color: "white",
     fontFamily: "monospace",
+    paddingRight: "510px",
+
   },
 
   filterContainer: {
