@@ -1,5 +1,5 @@
 import { Button, TextField, Link as MuiLink, Box, Paper, Typography, IconButton, InputAdornment } from "@mui/material";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router";
 import { User } from "../../../../models/User";
@@ -8,6 +8,62 @@ import { useCreateUserMutation } from "../../../../apis/users.api";
 import { useAppDispatch } from "../../../../app/hooks";
 import { setAuthState } from "../../../../slices/auth.slice";
 import { Visibility, VisibilityOff } from '@mui/icons-material';
+import styled from '@emotion/styled';
+
+const ParallaxBox = styled(Box)`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  padding: 2;
+  background-color: #1a1a1a;
+  overflow: hidden;
+`;
+
+const ParallaxLayer = styled.div`
+  position: absolute;
+  background: url('https://www.transparenttextures.com/patterns/clean-gray-paper.png'); 
+  width: 150%;
+  height: 150%;
+  top: -25%;
+  left: -25%;
+  opacity: 0.2;
+  transition: transform 0.1s ease-out;
+`;
+
+const StyledPaper = styled(Paper)`
+  display: flex;
+  flex-direction: column;
+  gap: 20px; 
+  width: 320px;
+  padding: 20px;
+  background-color: rgba(0, 0, 0, 0.9);
+  backface-visibility: hidden;
+  transition: transform 0.2s ease;
+  
+  &:hover {
+    transform: scale(1.05);
+  }
+`;
+
+const StyledTextField = styled(TextField)`
+  & .MuiInputBase-root {
+    color: #fff;
+  }
+  & .MuiFormLabel-root {
+    color: #ccc;
+  }
+  & .MuiInput-underline:before {
+    border-bottom-color: #ccc;
+  }
+  & .MuiInput-underline:hover:before {
+    border-bottom-color: #fff;
+  }
+  & .MuiInput-underline:after {
+    border-bottom-color: #4caf50;
+  }
+`;
 
 const SignupForm: React.FC = () => {
   const [email, setEmail] = useState("");
@@ -19,8 +75,7 @@ const SignupForm: React.FC = () => {
   const [confirmPassword, setConfirmPassword] = useState("");
   const [confirmPasswordErrored, setConfirmPasswordErrored] = useState(false);
 
-  const [username, setUsername] = useState("");
-  const [usernameErrored, setUsernameErrored] = useState(false);
+  
 
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
@@ -30,46 +85,39 @@ const SignupForm: React.FC = () => {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
 
-  const handleSignup = async () => {
-    let isValid = true;
+  useEffect(() => {
+    const handleMouseMove = (event: MouseEvent) => {
+      const parallaxLayer = document.getElementById('parallax-layer');
+      if (parallaxLayer) {
+        const x = (window.innerWidth - event.clientX * 10) / 100;
+        const y = (window.innerHeight - event.clientY * 10) / 100;
+        parallaxLayer.style.transform = `translateX(${x}px) translateY(${y}px)`;
+      }
+    };
+    window.addEventListener('mousemove', handleMouseMove);
+    return () => {
+      window.removeEventListener('mousemove', handleMouseMove);
+    };
+  }, []);
 
+  const handleSignup = async () => {
     if (!email) {
       setEmailErrored(true);
-      isValid = false;
     } else {
       setEmailErrored(false);
     }
-
     if (!password) {
       setPasswordErrored(true);
-      isValid = false;
     } else {
       setPasswordErrored(false);
     }
-
-    if (password !== confirmPassword) {
-      setConfirmPasswordErrored(true);
-      isValid = false;
-    } else {
-      setConfirmPasswordErrored(false);
-    }
-
-    if (!username) {
-      setUsernameErrored(true);
-      isValid = false;
-    } else {
-      setUsernameErrored(false);
-    }
-
-    if (isValid) {
-      try {
-        await createUser({ email, password, username });
-        const response = (await login({ email, password })) as { data: User };
-        dispatch(setAuthState({ user: response.data }));
-        navigate("/");
-      } catch (err) {
-        console.error(err);
-      }
+    try {
+      await createUser({ email, password });
+      const response = (await login({ email, password })) as { data: User };
+      dispatch(setAuthState({ user: response.data }));
+      navigate("/");
+    } catch (err) {
+      console.error(err);
     }
   };
 
@@ -82,24 +130,13 @@ const SignupForm: React.FC = () => {
   };
 
   return (
-    <Box
-      display="flex"
-      flexDirection="column"
-      justifyContent="center"
-      alignItems="center"
-      height="100vh"
-      bgcolor="#424242"
-      padding={2}
-      gap={2}
-    >
-      <Typography fontFamily={"-moz-initial"} variant="h2" color="#212121" gutterBottom>
-        Create your account
+    <ParallaxBox>
+      <ParallaxLayer id="parallax-layer" />
+      <Typography fontFamily={"-moz-initial"} variant="h2" color="#ffffff" gutterBottom>
+        CREATE YOUR ACCOUNT
       </Typography>
-      <Paper
-        elevation={3}
-        sx={{ display: 'flex', flexDirection: 'column', gap: 2, width: 320, p: 3, bgcolor: 'black' }}
-      >
-        <TextField
+      <StyledPaper elevation={3}>
+        <StyledTextField
           label="Email"
           type="email"
           required
@@ -109,17 +146,8 @@ const SignupForm: React.FC = () => {
           error={emailErrored}
           fullWidth
         />
-        <TextField
-          label="Username"
-          type="text"
-          required
-          helperText={usernameErrored && "Username may not be empty."}
-          value={username}
-          onChange={(event) => setUsername(event.target.value)}
-          error={usernameErrored}
-          fullWidth
-        />
-        <TextField
+        
+        <StyledTextField
           label="Password"
           type={showPassword ? "text" : "password"}
           required
@@ -142,7 +170,7 @@ const SignupForm: React.FC = () => {
             ),
           }}
         />
-        <TextField
+        <StyledTextField
           label="Confirm Password"
           type={showConfirmPassword ? "text" : "password"}
           required
@@ -172,16 +200,16 @@ const SignupForm: React.FC = () => {
             </MuiLink>
           </Link>
         </Box>
-      </Paper>
+      </StyledPaper>
       <Button
         variant="contained"
-        color="success"
+        color="warning"
         onClick={handleSignup}
-        sx={{ width: 320, mt: 2}}
+        sx={{ width: 320, mt: 2 }}
       >
         Sign Up
       </Button>
-    </Box>
+    </ParallaxBox>
   );
 };
 

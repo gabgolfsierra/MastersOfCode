@@ -1,7 +1,6 @@
 import React, { useEffect } from "react";
 import { createTheme, ThemeProvider } from "@mui/material";
 
-import "./index.css";
 import { Routes } from "./routes/routes";
 import { useGetUserQuery } from "./apis/users.api";
 import { useAppDispatch } from "./app/hooks";

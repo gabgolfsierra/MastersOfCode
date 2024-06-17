@@ -1,16 +1,19 @@
 import React, { useState } from "react";
-import { Typography, Box, List, ListItem, ListItemText, FormControl, InputLabel, Select, SelectChangeEvent, IconButton, Menu, MenuItem } from "@mui/material";
+import { Typography, Box, List, ListItem, ListItemText, FormControl, InputLabel, Select, MenuItem, IconButton, Menu, Paper, SelectChangeEvent, AppBar, Button, Toolbar } from "@mui/material";
 import { makeStyles } from "@mui/styles";
 import { Link } from "react-router-dom";
 import MenuIcon from '@mui/icons-material/Menu';
-
+import styled from '@emotion/styled';
 
 const useStyles = makeStyles({
+
+  header: {
+    background: "#1a1a1a",
+  },
+
   pageContainer: {
-    minHeight: "95vh",
-    backgroundColor: "#281332",
-    color: "white",
-    paddingTop: "24px",
+    minHeight: "100vh",
+    background: "#1a1a1a",
     display: "flex",
     flexDirection: "column",
     alignItems: "center",
@@ -19,61 +22,49 @@ const useStyles = makeStyles({
     width: "80%",
     margin: "auto",
     textAlign: "center",
+    marginBottom: "25px", // Adicionando margem inferior para separar do próximo conteúdo
   },
   title: {
     color: 'white',
-    position: 'fixed',
-    top: '10%',
-    left: '50%',
-    transform: 'translate(-50%, -50%)',
-    fontFamily: 'monospace',
+    fontFamily: '-moz-initial',
+    marginTop: '50px',
   },
   titleList: {
     fontSize: "29px",
-    marginBottom: "10px",
+    marginBottom: "20px",
     color: "white",
     fontFamily: "monospace",
   },
   listContainer: {
-    marginTop: "42px",
     width: "70%",
-    maxHeight: "600px",
+    maxHeight: "650px",
     overflowY: "auto",
     overflowX: "hidden",
     '&::-webkit-scrollbar': {
       width: '12px',
     },
     '&::-webkit-scrollbar-track': {
-      background: '#281332',
+      background: 'rgba(0, 0, 0, 1)',
     },
     '&::-webkit-scrollbar-thumb': {
-      background: '#4c2d52',
+      background: '#1a1a1a',
       borderRadius: '10px',
-      border: '3px solid #281332',
+      border: '1px solid #ff9966',
     },
-  },
-  list: {
-    backgroundColor: "#190c20",
-    padding: "10px",
-    borderRadius: "20px",
-    width: "98%",
-    marginBottom: "400px",
+    marginBottom: "50px", // Ajustando margem inferior para espaço adequado
   },
   listItem: {
     display: "flex",
     justifyContent: "space-between",
-    
     alignItems: "center",
     '&:hover': {
-      borderBottom: "1px solid white", 
+      borderBottom: "1px solid white",
     },
     '& h3': {
       fontFamily: "monospace",
-      
     },
     '& .MuiTypography-body1': {
       fontFamily: "monospace",
-  
     },
     '&.intern': {
       color: "green",
@@ -89,27 +80,23 @@ const useStyles = makeStyles({
     },
   },
   difficulty: {
-    marginLeft: "470px",
     color: "white",
     fontFamily: "monospace",
     textAlign: "right",
   },
-  points:{
-    marginLeft: "1px",
+  points: {
     color: "white",
     fontFamily: "monospace",
-  
-    
   },
+
   filterContainer: {
-    marginRight: "270px",
+    width: "70%",
     display: "flex",
     justifyContent: "flex-end",
-    width: "80%",
-    position: "sticky", 
-    marginTop: "100px", 
-    zIndex: 999, 
-    backgroundColor: "#281332", 
+    position: "static",
+    top: "0",
+    zIndex: 999,
+    marginBottom: "70px", // Adicionando margem inferior para separar do próximo conteúdo
   },
   select: {
     fontFamily: "monospace",
@@ -133,15 +120,36 @@ const useStyles = makeStyles({
     top: "20px",
     left: "20px",
     color: "white",
+    zIndex: 1000, // Ajustando z-index para ficar acima do conteúdo
   },
 });
+
+const StyledPaper = styled(Paper)`
+  && {
+    display: flex;
+    flex-direction: column;
+    gap: 100px;
+    width: 100%; 
+    padding: 20px;
+    background-color: rgba(0, 0, 0, 1);
+    backface-visibility: hidden;
+    transition: transform 0.4s ease;
+    &:hover {
+      transform: scale(1.02);
+    }
+  }
+`;
 
 const challenges = [
   { name: "1. Add Two Numbers", difficulty: "Intern", points: "25 points" },
   { name: "2. FizzBuzz", difficulty: "Junior", points: "50 points" },
   { name: "3. Reverse Array", difficulty: "Junior", points: "50 points" },
   { name: "4. Testando", difficulty: "Middle", points: "100 points" },
-  { name: "5. Testando", difficulty: "Senior", points: "500 points" },
+  { name: "6. Testando", difficulty: "Senior", points: "500 points" },
+  { name: "7. Testando", difficulty: "Senior", points: "500 points" },
+  { name: "8. Testando", difficulty: "Senior", points: "500 points" },
+  { name: "9. Testando", difficulty: "Senior", points: "500 points" },
+
 ];
 
 const HomePage: React.FC = () => {
@@ -149,8 +157,8 @@ const HomePage: React.FC = () => {
   const [difficultyFilter, setDifficultyFilter] = useState<string>("");
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
 
-  const handleFilterChange = (event: SelectChangeEvent) => {
-    setDifficultyFilter(event.target.value as string);
+  const handleFilterChange = (event: SelectChangeEvent<string>) => {
+    setDifficultyFilter(event.target.value);
   };
 
   const handleMenuClick = (event: React.MouseEvent<HTMLElement>) => {
@@ -166,73 +174,80 @@ const HomePage: React.FC = () => {
   );
 
   return (
-    <div className={classes.pageContainer}>
-      
-      <IconButton className={classes.menuButton} onClick={handleMenuClick}>
-        <MenuIcon />
-      </IconButton>
+    <><div className={classes.header}>
+      <Box sx={{ flexGrow: 1 }}>
+        <AppBar position="static">
+          <Toolbar>
+            <IconButton
+              size="large"
+              edge="start"
+              color="warning"
+              aria-label="menu"
+              sx={{ mr: 180 }}
+            >
+              <MenuIcon />
+            </IconButton>
+            <Button color="warning">Your Points: </Button>
+          </Toolbar>
+        </AppBar>
+      </Box>
 
-     
-      <Menu
-        anchorEl={anchorEl}
-        open={Boolean(anchorEl)}
-        onClose={handleMenuClose}
-      >
-        <MenuItem onClick={handleMenuClose} component={Link} to="/profile">
-          Your Profile
-        </MenuItem>
-      </Menu>
-
-      
       <Box className={classes.contentContainer}>
-        <Typography variant="h2" className={classes.title}>
-          Welcome to Masters Of Code!
+        <Typography variant="h4" className={classes.title}>
+          WELCOME TO MASTERS OF CODE
         </Typography>
-        
       </Box>
+    </div><div className={classes.pageContainer}>
 
-      <Box className={classes.filterContainer}>
-        <FormControl variant="filled">
-          <InputLabel className={classes.select}>Difficulty</InputLabel>
-          <Select
-            value={difficultyFilter}
-            onChange={handleFilterChange}
-            label="Filter by Difficulty"
-            className={classes.select}
-          >
-            <MenuItem value="">All</MenuItem>
-            <MenuItem value="Intern">Intern</MenuItem>
-            <MenuItem value="Junior">Junior</MenuItem>
-            <MenuItem value="Middle">Middle</MenuItem>
-            <MenuItem value="Senior">Senior</MenuItem>
-          </Select>
-        </FormControl>
-      </Box>
-      
-      <Box className={classes.listContainer}>
-        <Typography variant="h3" className={classes.titleList}>
-          Pick your challenge and CODE!
-        </Typography>
-        
-        <List className={classes.list}>
-          {filteredChallenges.map((challenge, index) => (
-            <ListItem key={index} component={Link} to={`/challenge/${index + 1}`} className={`${classes.listItem} ${challenge.difficulty.toLowerCase()}`}>
-              <ListItemText primary={challenge.name} />
-              <Box>
-                <Typography variant="body2" className={classes.points}>
-                  {challenge.points}
-                </Typography>
-              </Box>
-              <Box>
-                <Typography variant="body2" className={classes.difficulty}>
-                  Difficulty: {challenge.difficulty}
-                </Typography>
-              </Box>
-            </ListItem>
-          ))}
-        </List>
-      </Box>
-    </div>
+
+        <Box className={classes.filterContainer}>
+          <FormControl variant="filled">
+            <InputLabel className={classes.select}>Difficulty</InputLabel>
+            <Select
+              value={difficultyFilter}
+              onChange={handleFilterChange}
+              label="Filter by Difficulty"
+              className={classes.select}
+            >
+              <MenuItem value="">All</MenuItem>
+              <MenuItem value="Intern">Intern</MenuItem>
+              <MenuItem value="Junior">Junior</MenuItem>
+              <MenuItem value="Middle">Middle</MenuItem>
+              <MenuItem value="Senior">Senior</MenuItem>
+            </Select>
+          </FormControl>
+        </Box>
+
+        <Box className={classes.listContainer}>
+          <Typography variant="h3" className={classes.titleList}>
+            Pick your challenge and CODE!
+          </Typography>
+
+          <List>
+            {filteredChallenges.map((challenge, index) => (
+              <StyledPaper key={index} elevation={3}>
+                <ListItem
+                  component={Link}
+                  to={`/challenge/${index + 1}`}
+                  className={`${classes.listItem} ${challenge.difficulty.toLowerCase()}`}
+                >
+                  <ListItemText primary={challenge.name} />
+                  <Box>
+                    <Typography variant="body2" className={classes.points}>
+                      {challenge.points}
+                    </Typography>
+                  </Box>
+                  <Box>
+                    <Typography variant="body2" className={classes.difficulty}>
+                      Difficulty: {challenge.difficulty}
+                    </Typography>
+                  </Box>
+                </ListItem>
+              </StyledPaper>
+            ))}
+          </List>
+        </Box>
+      </div></>
   );
 };
 
