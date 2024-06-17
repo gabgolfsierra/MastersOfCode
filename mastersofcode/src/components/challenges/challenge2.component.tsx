@@ -9,56 +9,57 @@ import axios from "axios";
 
 const useStyles = makeStyles(() => ({
     root: {
-        display: "flex",
-        flexDirection: "row",
-        justifyContent: "center",
-        alignItems: "flex-start",
-        backgroundColor: '#1a1a1a',
-        padding: '24px',
-        borderRadius: '8px',
-        boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)',
+      display: "flex",
+      flexDirection: "column",
+      justifyContent: "center",
+      marginTop:"90px",
+      backgroundColor: 'rgba(0, 0, 0, 0.1)',
+      padding: '24px',
+      borderRadius: '80px',
+      boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)',
+     
+     
     },
-
-
+    
+    
     editorContainer: {
-        flex: 1,
-        marginRight: '20px',
+     marginTop: "30px",
     },
     title: {
-        marginBottom: "20px",
-        color: '#7a57d1',
-        fontFamily: 'monospace',
-        
+      marginBottom: "20px",
+      color: '#ff9966',
+      fontFamily: 'monospace',
     },
     par: {
-        marginBottom: "10px",
-        color: 'white',
-        fontFamily: 'monospace',
+      marginBottom: "10px",
+      color: 'white',
+      fontFamily: 'monospace', 
     },
     but: {
-        color: 'white',
-        fontFamily: 'monospace',
+      color: 'white',
+      fontFamily: 'monospace', 
     },
     codeMirror: {
-        marginBottom: "20px",
-        textAlign: "left",
+      marginBottom: "20px",
+      textAlign: "left",
     },
     submitButton: {
-        backgroundColor: '#4caf50',
-        color: '#fff',
-        "&:hover": {
-            backgroundColor: '#388e3c',
-        },
+      backgroundColor: '#4caf50',
+      color: '#ff9966',
+      "&:hover": {
+        backgroundColor: '#388e3c',
+      },
     },
     logsContainer: {
-        marginTop: "20px",
-        padding: "10px",
-        backgroundColor: "#f7f7f7",
-        borderRadius: "4px",
-        textAlign: "left",
-        flex: 1,
+      marginTop: "20px",
+      padding: "10px",
+      backgroundColor: "#f7f7f7",
+      borderRadius: "4px",
+      textAlign: "left",
+      flex: 1,
     },
-}));
+  }));
+  
 
 const Challenge2: React.FC = () => {
     const classes = useStyles();
@@ -188,14 +189,8 @@ const Challenge2: React.FC = () => {
                         "Submit"
                     )}
                 </Button>
-                <div className={classes.logsContainer}>
-                    <Typography variant="h6">Logs</Typography>
-                    {errorLogs.map((log, index) => (
-                        <Typography key={index} variant="body1" color="error">
-                            {log}
-                        </Typography>
-                    ))}
-                </div>
+               
+            
                 {renderTestResults()}
             </Container>
 
@@ -212,10 +207,10 @@ const Challenge2: React.FC = () => {
                             </Typography>
                             <div style={{ display: 'flex', flexDirection: 'column' }}>
                                 <Typography variant="overline" className={classes.par}>
-                                    Input: n = 15
+                                    Input: n = 3
                                 </Typography>
                                 <Typography variant="overline" className={classes.par}>
-                                    Output: ["1","2","Fizz"]
+                                    Output: ["1", "2", "Fizz"]
                                 </Typography>
                             </div>
                         </div>
@@ -229,7 +224,7 @@ const Challenge2: React.FC = () => {
                                     Input: n = 5
                                 </Typography>
                                 <Typography variant="overline" className={classes.par}>
-                                    Output: ["1","2","Fizz","4","Buzz"]
+                                    Output: ["1", "2", "Fizz", "4", "Buzz"]
                                 </Typography>
                             </div>
                         </div>
@@ -244,8 +239,8 @@ const Challenge2: React.FC = () => {
                                 Input: n = 15
                             </Typography>
                             <Typography variant="overline" className={classes.par}>
-                                ["1","2","Fizz","4","Buzz","Fizz","7","8",
-                                "Fizz","Buzz","11","Fizz","13","14","FizzBuzz"]
+                                ["1", "2", "Fizz", "4", "Buzz", "Fizz", "7", "8",
+                                "Fizz", "Buzz", "11", "Fizz", "13", "14", "FizzBuzz"]
                             </Typography>
                         </div>
                     </div>

@@ -10,23 +10,24 @@ import axios from "axios";
 const useStyles = makeStyles(() => ({
   root: {
     display: "flex",
-    flexDirection: "row",
+    flexDirection: "column",
     justifyContent: "center",
-    alignItems: "flex-start",
-    backgroundColor: '#1a1a1a',
+    marginTop:"90px",
+    backgroundColor: 'rgba(0, 0, 0, 0.1)',
     padding: '24px',
-    borderRadius: '8px',
+    borderRadius: '80px',
     boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)',
+   
+   
   },
   
   
   editorContainer: {
-    flex: 1,
-    marginRight: '20px',
+   marginTop: "30px",
   },
   title: {
     marginBottom: "20px",
-    color: '#7a57d1',
+    color: '#ff9966',
     fontFamily: 'monospace', 
   },
   par: {
@@ -44,7 +45,7 @@ const useStyles = makeStyles(() => ({
   },
   submitButton: {
     backgroundColor: '#4caf50',
-    color: '#fff',
+    color: '#ff9966',
     "&:hover": {
       backgroundColor: '#388e3c',
     },
@@ -183,15 +184,6 @@ const Challenge1: React.FC = () => {
             "Submit"
           )}
         </Button>
-        <div className={classes.logsContainer}>
-          <Typography variant="h6">Logs</Typography>
-          {errorLogs.map((log, index) => (
-            <Typography key={index} variant="body1" color="error">
-              {log}
-            </Typography>
-          ))}
-        </div>
-        {renderTestResults()}
       </Container>
   
       <Container className={classes.editorContainer}>
