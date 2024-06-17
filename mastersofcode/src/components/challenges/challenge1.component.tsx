@@ -63,7 +63,6 @@ const useStyles = makeStyles(() => ({
 
 const Challenge1: React.FC = () => {
   const classes = useStyles();
-  const theme = useTheme();
   const navigate = useNavigate();
   const [code, setCode] = useState('function sum(a, b) { \n\n\n //Your code here \n\n\n }\n\n\n\n module.exports = { sum }; ');
 
@@ -87,11 +86,12 @@ const Challenge1: React.FC = () => {
   const submitCode = async () => {
     try {
       setLoading(true);
-      const response = await axios.post("http://localhost:3002/challenge/1", { code });
+      const response = await axios.post(
+        "http://localhost:3002/challenge/1",
+        { code }
+      );
       console.log(response.data);
       setTestResults(response.data.output);
-
-      
     } catch (error: any) {
       console.error("Error to send your code: ", error);
       setTestResults(null);
@@ -102,37 +102,29 @@ const Challenge1: React.FC = () => {
     }
   };
 
-  useEffect(() => {
-    const intervalId = setInterval(() => {
-      setErrorLogs([]);
-    }, 10000);
-
-    return () => {
-      clearInterval(intervalId);
-    };
-  }, []);
 
   useEffect(() => {
     if (testResults) {
       const passMessages: Message[] = testResults.passes.map(() => ({
-        type: 'success',
-        message: 'CONGRATULATIONS!! YOU EARNED 25 POINTS!',
+        type: "success",
+        message: "CONGRATULATIONS!! YOU EARNED 25 POINTS!",
       }));
       const failMessages: Message[] = testResults.failures.map((failure) => ({
-        type: 'error',
-        message: 'FAIL! TRY AGAIN',
+        type: "error",
+        message: "FAIL! TRY AGAIN",
         details: failure.err.message,
       }));
       setMessages([...passMessages, ...failMessages]);
       setOpen(true);
-      setLoading(false); 
-      
+      setLoading(false);
+
+      // Mark challenge as completed and redirect after 3 seconds
       setTimeout(() => {
         const completedChallenges =
           JSON.parse(localStorage.getItem("completedChallenges") || "[]") || [];
         localStorage.setItem(
           "completedChallenges",
-          JSON.stringify([...completedChallenges, "Reverse String"])
+          JSON.stringify([...completedChallenges, "Add Two Numbers"])
         );
         navigate("/");
       }, 3000);
@@ -180,6 +172,28 @@ const Challenge1: React.FC = () => {
       </React.Fragment>
     );
   };
+
+  
+
+  const renderErrorLogs = () => {
+    return (
+        <React.Fragment>
+            {errorLogs.map((log, index) => (
+                <Snackbar
+                    key={index}
+                    open={true}
+                    autoHideDuration={8000}
+                    onClose={() => setErrorLogs(errorLogs.filter((_, i) => i !== index))}
+                    anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
+                >
+                    <MuiAlert onClose={() => setErrorLogs(errorLogs.filter((_, i) => i !== index))} severity="error">
+                        {log}
+                    </MuiAlert>
+                </Snackbar>
+            ))}
+        </React.Fragment>
+    );
+};
 
   return (
     <Box className={classes.root}>
@@ -271,6 +285,7 @@ const Challenge1: React.FC = () => {
         </div>
       </Container>
       {renderTestResults()}
+      {renderErrorLogs()}
     </Box>
   );
 }

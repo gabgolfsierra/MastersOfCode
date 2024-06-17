@@ -184,9 +184,126 @@ describe('fizzBuzz function', () => {
     });
   }
 
+  //Palindrome Linked List Challenge
+  @Post('/4')
+  async CodeReceiver4(@Request() req, @Response() res): Promise<any> {
+    const userCode = req.body.code;
 
 
+    fs.writeFileSync('userCode.js', userCode);
 
+    const testCode = `
+const assert = require('assert');
+const { isPalindrome } = require('./userCode');
+
+describe('isPalindrome function', () => {
+  it('should return true for [1, 2, 2, 1]', () => {
+    const head = createLinkedList([1, 2, 2, 1]);
+    assert.strictEqual(isPalindrome(head), true, 'Expected [1, 2, 2, 1] to be a palindrome');
+  });
+
+  it('should return false for [1, 2]', () => {
+    const head = createLinkedList([1, 2]);
+    assert.strictEqual(isPalindrome(head), false, 'Expected [1, 2] not to be a palindrome');
+  });
+
+  it('should return true for [] (empty list)', () => {
+    const head = null;
+    assert.strictEqual(isPalindrome(head), true, 'Expected empty list to be a palindrome');
+  });
+
+  it('should return true for [1] (single-node list)', () => {
+    const head = new ListNode(1);
+    assert.strictEqual(isPalindrome(head), true, 'Expected [1] to be a palindrome');
+  });
+
+  function ListNode(val, next) {
+    this.val = val === undefined ? 0 : val;
+    this.next = next === undefined ? null : next;
+  }
+
+  function createLinkedList(arr) {
+    let head = null;
+    let current = null;
+    for (let val of arr) {
+      const node = new ListNode(val);
+      if (!head) {
+        head = node;
+        current = node;
+      } else {
+        current.next = node;
+        current = node;
+      }
+    }
+    return head;
+  }
+});
+`;
+    fs.writeFileSync('test.js', testCode);
+
+    exec('npx mocha test.js --reporter json', (error, stdout, stderr) => {
+      if (error) {
+        console.error(`Erro ao executar os testes: ${stderr}`);
+        try {
+          const testResults = JSON.parse(stdout);
+          res.status(200).json({ success: true, output: testResults });
+        } catch (parseError) {
+          res.status(400).json({ success: false, output: stderr });
+        }
+      } else {
+        const testResults = JSON.parse(stdout);
+        console.log(`Saída dos testes: ${stdout}`);
+        res.status(200).json({ success: true, output: testResults });
+      }
+
+      fs.unlinkSync('userCode.js');
+      fs.unlinkSync('test.js');
+    });
+  }
+
+  //Less Than 100? Challenge
+  @Post('/5')
+  async CodeReceiver5(@Request() req, @Response() res): Promise<any> {
+    const userCode = req.body.code;
+
+
+    fs.writeFileSync('userCode.js', userCode);
+
+    const testCode = `
+    const assert = require('assert');
+    const { lessThan100 } = require('./userCode');
+      describe('lessThan100 function', () => {
+  it('should return true for sum less than 100 (22, 15)', () => {
+    assert.strictEqual(lessThan100(22, 15), true, 'Sum of 22 and 15 should be less than 100');
+  });
+
+  it('should return false for sum greater than 100 (83, 34)', () => {
+    assert.strictEqual(lessThan100(83, 34), false, 'Sum of 83 and 34 should be greater than 100');
+  });
+
+});
+    `;
+    fs.writeFileSync('test.js', testCode);
+
+    exec('npx mocha test.js --reporter json', (error, stdout, stderr) => {
+      if (error) {
+        console.error(`Erro ao executar os testes: ${stderr}`);
+        try {
+          const testResults = JSON.parse(stdout);
+          res.status(200).json({ success: true, output: testResults });
+        } catch (parseError) {
+          res.status(400).json({ success: false, output: stderr });
+        }
+      } else {
+        const testResults = JSON.parse(stdout);
+        console.log(`Saída dos testes: ${stdout}`);
+        res.status(200).json({ success: true, output: testResults });
+      }
+
+      fs.unlinkSync('userCode.js');
+      fs.unlinkSync('test.js');
+    });
+  }
 
 
 

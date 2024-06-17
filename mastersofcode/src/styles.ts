@@ -85,6 +85,10 @@ const useStyles = makeStyles({
 
   },
 
+  completed:{
+    paddingRight: "30px",
+  },
+
   filterContainer: {
     width: "70%",
     display: "flex",

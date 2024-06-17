@@ -82,7 +82,7 @@ const HomePage: React.FC = () => {
         </Box>
 
         <Box >
-          <Typography marginTop={"30px"} fontFamily={"-moz-initial"} color="#ff9966" variant="h2"  className={classes.title}>
+          <Typography marginTop={"30px"} fontFamily={"-moz-initial"} color="#ff9966" variant="h2" className={classes.title}>
             WELCOME TO MASTERS OF CODE
           </Typography>
         </Box>
@@ -115,25 +115,29 @@ const HomePage: React.FC = () => {
             {filteredChallenges.map((challenge, index) => (
               <StyledPaper key={index} elevation={3}>
                 <ListItem
+                  key={challenge.id}
                   component={Link}
-                  to={`/challenge/${index + 1}`}
+                  to={`/challenge/${challenge.id}`}
                   className={`${classes.listItem} ${challenge.difficulty.toLowerCase()}`}
-                  style={{ pointerEvents: completedChallenges.includes(challenge.name) ? "none" : "auto", opacity: completedChallenges.includes(challenge.name) ? 0.5 : 1 }}
+                  style={{
+                    pointerEvents: completedChallenges.includes(challenge.name) ? "none" : "auto",
+                    opacity: completedChallenges.includes(challenge.name) ? 0.5 : 1
+                  }}
                 >
                   <ListItemText primary={challenge.name} />
                   <Box>
-                    <Typography variant="body2" className={classes.points}>
+                    <Typography variant="body2" fontFamily={"monospace"} className={classes.points}>
                       {challenge.points}
                     </Typography>
                   </Box>
                   <Box className={classes.difficulty}>
-                    <Typography variant="body2" >
+                    <Typography variant="body2"  >
                       Difficulty: {challenge.difficulty}
                     </Typography>
                   </Box>
                   {completedChallenges.includes(challenge.name) && (
-                    <Box>
-                      <Typography variant="body2" className={classes.difficulty} color="green">
+                    <Box className={classes.completed}>
+                      <Typography variant="body2" color="green" fontFamily={"monospace"}  >
                         Completed
                       </Typography>
                     </Box>
