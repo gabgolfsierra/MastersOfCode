@@ -272,14 +272,14 @@ describe('isPalindrome function', () => {
     const testCode = `
     const assert = require('assert');
     const { lessThan100 } = require('./userCode');
-      describe('lessThan100 function', () => {
-  it('should return true for sum less than 100 (22, 15)', () => {
+    describe('lessThan100 function', () => {
+    it('should return true for sum less than 100 (22, 15)', () => {
     assert.strictEqual(lessThan100(22, 15), true, 'Sum of 22 and 15 should be less than 100');
-  });
+    });
 
-  it('should return false for sum greater than 100 (83, 34)', () => {
+    it('should return false for sum greater than 100 (83, 34)', () => {
     assert.strictEqual(lessThan100(83, 34), false, 'Sum of 83 and 34 should be greater than 100');
-  });
+    });
 
 });
     `;

@@ -1,12 +1,11 @@
-import { Button, TextField, Link as MuiLink, Typography, Box, Paper } from "@mui/material";
+import { Button, TextField, Link as MuiLink, Typography, Box, Paper, Snackbar } from "@mui/material";
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router";
-import { useLoginMutation } from "../../../apis/auth.api";
-import { useAppDispatch } from "../../../app/hooks";
-import { User } from "../../../models/User";
-import { setAuthState } from "../../../slices/auth.slice";
 import styled from '@emotion/styled';
+import { useAuth } from "../../../apis/authcontext";
+import { AxiosError } from "axios";
+import Alert from '@mui/material/Alert';
 
 const ParallaxBox = styled(Box)`
   display: flex;
@@ -40,6 +39,7 @@ const StyledPaper = styled(Paper)`
   background-color: rgba(0, 0, 0, 0.9);
   backface-visibility: hidden;
   transition: transform 0.3s ease;
+  
   &:hover {
     transform: scale(1.03);
   }
@@ -64,15 +64,14 @@ const StyledTextField = styled(TextField)`
 `;
 
 const LoginForm: React.FC = () => {
-  const [errorMessage] = useState<string | null>(null);
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const [email, setEmail] = useState("");
   const [emailErrored, setEmailErrored] = useState(false);
   const [password, setPassword] = useState("");
   const [passwordErrored, setPasswordErrored] = useState(false);
-  const [login] = useLoginMutation();
-  const dispatch = useAppDispatch();
+  const [error, setError] = useState<string | null>(null); // State for error message
+  const { login } = useAuth();
   const navigate = useNavigate();
-  
 
   useEffect(() => {
     const handleMouseMove = (event: MouseEvent) => {
@@ -89,7 +88,11 @@ const LoginForm: React.FC = () => {
     };
   }, []);
 
-  const handleLogin = async () => {
+  const handleCloseSnackbar = () => {
+    setErrorMessage(null);
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
     if (!email) {
       setEmailErrored(true);
     } else {
@@ -100,14 +103,25 @@ const LoginForm: React.FC = () => {
     } else {
       setPasswordErrored(false);
     }
+    e.preventDefault();
+    
     try {
-      const response = (await login({ email, password })) as { data: User };
-      dispatch(setAuthState({ user: response.data }));
-      navigate("/");
-    } catch (err) {
-      console.error(err);
+      await login(email, password);
+      navigate('/');
+    } catch (error) {
+      if (isAxiosError(error)) {
+        if (error.response?.status === 401) {
+          setErrorMessage("User does not exist or incorrect password.");
+        } else {
+          setErrorMessage("Unexpected error occurred.");
+        }
+      }
     }
   };
+
+  function isAxiosError(error: any): error is AxiosError {
+    return (error as AxiosError).isAxiosError !== undefined;
+  }
 
   return (
     <ParallaxBox>
@@ -136,11 +150,7 @@ const LoginForm: React.FC = () => {
           error={passwordErrored}
           fullWidth
         />
-        {errorMessage && (
-          <Typography variant="body2" color="error" style={{ marginTop: '10px', textAlign: 'center' }}>
-            {errorMessage}
-          </Typography>
-        )}
+        
         <Box textAlign="left">
           <Link to="/signup">
             <MuiLink component="span" variant="body2" color="info.main">
@@ -152,12 +162,31 @@ const LoginForm: React.FC = () => {
       <Button
         variant="contained"
         color="warning"
-        onClick={handleLogin}
+        onClick={handleSubmit}
         fullWidth
         sx={{ width: 320, mt: 2 }}
       >
         Login
       </Button>
+      {errorMessage && (
+          <Snackbar
+            open={!!errorMessage}
+            autoHideDuration={3000}
+            onClose={handleCloseSnackbar}
+            anchorOrigin={{
+              vertical: 'top',
+              horizontal: 'center',
+            }}
+          >
+            <Alert
+              onClose={handleCloseSnackbar}
+              severity="error"
+              sx={{ width: '100%' }}
+            >
+              {errorMessage}
+            </Alert>
+          </Snackbar>
+        )}
     </ParallaxBox>
   );
 };

@@ -1,24 +1,19 @@
-import { Body, Controller, Get, Post, UseGuards } from '@nestjs/common';
-import { CurrentUser } from '../auth/current-user.decorator';
-import { CreateUserRequest } from './dto/request/create-user-request.dto';
-import { UserResponse } from './dto/response/user-response.dto';
-import { UsersService } from './users.service';
-import { JwtAuthGuard } from 'src/auth/guards/jwt-auth.guard';
+import { Controller, Post, Body, Get } from '@nestjs/common';
+import { UserService } from './users.service';
+import { UpdatePointsDto } from './dto/update.points.dto';
 
-@Controller('users')
-export class UsersController {
-  constructor(private readonly usersService: UsersService) {}
 
-  @Post()
-  async createUser(
-    @Body() createUserRequest: CreateUserRequest,
-  ): Promise<UserResponse> {
-    return this.usersService.createUser(createUserRequest);
+@Controller('user')
+export class UserController {
+  constructor(private readonly userService: UserService) {}
+
+  @Post('addPoints')
+  async addPoints(@Body() updatePointsDto: UpdatePointsDto) {
+    return this.userService.updatePoints(updatePointsDto);
   }
 
-  @Get()
-  @UseGuards(JwtAuthGuard)
-  async getUser(@CurrentUser() user: UserResponse): Promise<UserResponse> {
-    return user;
+  @Get('rankings')
+  async getRankings() {
+    return this.userService.getRankings();
   }
 }

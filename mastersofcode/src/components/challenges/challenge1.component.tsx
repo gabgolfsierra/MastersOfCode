@@ -8,6 +8,7 @@ import { dracula } from '@uiw/codemirror-theme-dracula';
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
+
 const useStyles = makeStyles(() => ({
   root: {
     display: "flex",
@@ -102,6 +103,7 @@ const Challenge1: React.FC = () => {
     }
   };
 
+  
 
   useEffect(() => {
     if (testResults) {
@@ -117,6 +119,8 @@ const Challenge1: React.FC = () => {
       setMessages([...passMessages, ...failMessages]);
       setOpen(true);
       setLoading(false);
+
+      
 
       // Mark challenge as completed and redirect after 3 seconds
       setTimeout(() => {

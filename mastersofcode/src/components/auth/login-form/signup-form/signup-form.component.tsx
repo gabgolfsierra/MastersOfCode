@@ -1,14 +1,12 @@
-import { Button, TextField, Link as MuiLink, Box, Paper, Typography, IconButton, InputAdornment } from "@mui/material";
+import { Button, TextField, Link as MuiLink, Box, Paper, Typography, IconButton, InputAdornment, Snackbar } from "@mui/material";
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router";
-import { User } from "../../../../models/User";
-import { useLoginMutation } from "../../../../apis/auth.api";
-import { useCreateUserMutation } from "../../../../apis/users.api";
-import { useAppDispatch } from "../../../../app/hooks";
-import { setAuthState } from "../../../../slices/auth.slice";
 import { Visibility, VisibilityOff } from '@mui/icons-material';
 import styled from '@emotion/styled';
+import { useAuth } from "../../../../apis/authcontext";
+import { AxiosError } from "axios";
+import Alert from '@mui/material/Alert';
 
 const ParallaxBox = styled(Box)`
   display: flex;
@@ -17,8 +15,9 @@ const ParallaxBox = styled(Box)`
   align-items: center;
   height: 100vh;
   padding: 2;
-  background-color: #1a1a1a;
+  background-color: #1a1a1a; 
   overflow: hidden;
+  position: relative;
 `;
 
 const ParallaxLayer = styled.div`
@@ -68,22 +67,15 @@ const StyledTextField = styled(TextField)`
 const SignupForm: React.FC = () => {
   const [email, setEmail] = useState("");
   const [emailErrored, setEmailErrored] = useState(false);
-
   const [password, setPassword] = useState("");
   const [passwordErrored, setPasswordErrored] = useState(false);
-
   const [confirmPassword, setConfirmPassword] = useState("");
   const [confirmPasswordErrored, setConfirmPasswordErrored] = useState(false);
-
-  
-
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
-
-  const [createUser] = useCreateUserMutation();
-  const [login] = useLoginMutation();
+  const [error, setError] = useState<string | null>(null); // State for error message
+  const { register } = useAuth();
   const navigate = useNavigate();
-  const dispatch = useAppDispatch();
 
   useEffect(() => {
     const handleMouseMove = (event: MouseEvent) => {
@@ -100,26 +92,52 @@ const SignupForm: React.FC = () => {
     };
   }, []);
 
-  const handleSignup = async () => {
+  const handleCloseSnackbar = () => {
+    setError(null);
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+
     if (!email) {
       setEmailErrored(true);
+      return;
     } else {
       setEmailErrored(false);
     }
+
     if (!password) {
       setPasswordErrored(true);
+      return;
     } else {
       setPasswordErrored(false);
     }
+
+    if (password !== confirmPassword) {
+      setConfirmPasswordErrored(true);
+      setError("Passwords do not match.");
+      return;
+    } else {
+      setConfirmPasswordErrored(false);
+    }
+
     try {
-      await createUser({ email, password });
-      const response = (await login({ email, password })) as { data: User };
-      dispatch(setAuthState({ user: response.data }));
-      navigate("/");
-    } catch (err) {
-      console.error(err);
+      await register(email, password);
+      navigate('/login');
+    } catch (error) {
+      if (isAxiosError(error)) {
+        if (error.response?.status === 500) {
+          setError("User already exists. Try another email.");
+        } else {
+          setError("Unexpected error occurred.");
+        }
+      }
     }
   };
+
+  function isAxiosError(error: any): error is AxiosError {
+    return (error as AxiosError).isAxiosError !== undefined;
+  }
 
   const handleClickShowPassword = () => {
     setShowPassword(!showPassword);
@@ -146,7 +164,7 @@ const SignupForm: React.FC = () => {
           error={emailErrored}
           fullWidth
         />
-        
+
         <StyledTextField
           label="Password"
           type={showPassword ? "text" : "password"}
@@ -163,6 +181,7 @@ const SignupForm: React.FC = () => {
                   aria-label="toggle password visibility"
                   onClick={handleClickShowPassword}
                   edge="end"
+  
                 >
                   {showPassword ? <VisibilityOff /> : <Visibility />}
                 </IconButton>
@@ -204,11 +223,30 @@ const SignupForm: React.FC = () => {
       <Button
         variant="contained"
         color="warning"
-        onClick={handleSignup}
+        onClick={handleSubmit}
         sx={{ width: 320, mt: 2 }}
       >
         Sign Up
       </Button>
+
+
+      <Snackbar
+        anchorOrigin={{
+          vertical: 'top',
+          horizontal: 'center',
+        }}
+        open={!!error}
+        autoHideDuration={3000}
+        onClose={handleCloseSnackbar}
+      >
+        <Alert
+          onClose={handleCloseSnackbar}
+          severity="error"
+          sx={{ width: '100%' }}
+        >
+          {error}
+        </Alert>
+      </Snackbar>
     </ParallaxBox>
   );
 };
