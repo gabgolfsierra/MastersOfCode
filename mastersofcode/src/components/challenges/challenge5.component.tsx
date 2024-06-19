@@ -28,7 +28,7 @@ const useStyles = makeStyles(() => ({
     },
     title: {
       marginBottom: "20px",
-      color: '#ff9966',
+      color: '#FF8C00',
       fontFamily: 'monospace',
     },
     par: {
@@ -46,7 +46,7 @@ const useStyles = makeStyles(() => ({
     },
     submitButton: {
       backgroundColor: '#4caf50',
-      color: '#ff9966',
+      color: '#FF8C00',
       "&:hover": {
         backgroundColor: '#388e3c',
       },
@@ -260,7 +260,7 @@ const Challenge5: React.FC = () => {
                     <Typography variant="body1" className={classes.but}>
                         Difficulty: Intern 
                     </Typography>
-                    <div style={{ width: '10px', height: '10px', backgroundColor: 'grenn', marginLeft: '10px', marginBottom: '6px' }}></div>
+                    <div style={{ width: '10px', height: '10px', backgroundColor: 'green', marginLeft: '10px', marginBottom: '6px' }}></div>
                 </div>
             </Container>
         </Box>

@@ -25,7 +25,8 @@ const StyledPaper = styled(Paper)`
   && {
     display: flex;
     flex-direction: column;
-    gap: 20px;
+    gap: 100px;
+    width: 100%;
     padding: 20px;
     background-color: rgba(0, 0, 0, 1);
     backface-visibility: hidden;
@@ -36,20 +37,22 @@ const StyledPaper = styled(Paper)`
   }
 `;
 
+
+
 const HomePage: React.FC = () => {
   const classes = useStyles();
   const [difficultyFilter, setDifficultyFilter] = useState<string>("");
   const [completedChallenges, setCompletedChallenges] = useState<string[]>([]);
-  const [totalPoints] = useState<number>(0);
-
-  useEffect(() => {
-    const completed = JSON.parse(localStorage.getItem("completedChallenges") || "[]");
-    setCompletedChallenges(completed);
-  }, []); 
 
   const handleFilterChange = (event: SelectChangeEvent<string>) => {
     setDifficultyFilter(event.target.value);
   };
+
+  useEffect(() => {
+    const completed = JSON.parse(localStorage.getItem("completedChallenges") || "[]");
+    setCompletedChallenges(completed);
+  }, []);
+
 
   const filteredChallenges = challenges.filter(
     (challenge) =>
@@ -59,39 +62,40 @@ const HomePage: React.FC = () => {
   return (
     <>
       <div className={classes.header}>
-        <Box sx={{ flexGrow: 1 }}>
-          <AppBar position="static">
+        <Box sx={{ flexGrow: 1 }} color="#1a1a1a">
+          <AppBar position="static" >
             <Toolbar>
               <IconButton
                 size="large"
                 edge="start"
-                color="inherit"
+                color="warning"
                 aria-label="menu"
-                sx={{ mr: 2 }}
+                sx={{ mr: 10 }}
               >
                 <MenuIcon />
               </IconButton>
-              <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-                Your Points: {totalPoints}
+              <Typography variant="h6" color="#FF8C00" fontFamily={"-moz-initial"} component="div" sx={{ flexGrow: 1 }}>
+                Your Points:
               </Typography>
             </Toolbar>
           </AppBar>
         </Box>
 
-        <Box>
-          <Typography variant="h2" className={classes.title}>
+        <Box >
+          <Typography marginTop={"30px"} fontFamily={"-moz-initial"} color="#FF8C00" variant="h2" className={classes.title}>
             WELCOME TO MASTERS OF CODE
           </Typography>
         </Box>
       </div>
       <div className={classes.pageContainer}>
         <Box className={classes.filterContainer}>
-          <FormControl variant="filled" className={classes.select}>
-            <InputLabel>Difficulty</InputLabel>
+          <FormControl variant="filled">
+            <InputLabel className={classes.select}>Difficulty</InputLabel>
             <Select
               value={difficultyFilter}
               onChange={handleFilterChange}
               label="Filter by Difficulty"
+              className={classes.select}
             >
               <MenuItem value="">All</MenuItem>
               <MenuItem value="Intern">Intern</MenuItem>
@@ -103,45 +107,43 @@ const HomePage: React.FC = () => {
         </Box>
 
         <Box className={classes.listContainer}>
-          <Typography variant="h4" className={classes.titleList}>
+          <Typography fontFamily={"monospace"} variant="h4" className={classes.titleList}>
             Pick your challenge and CODE!
           </Typography>
 
           <List>
             {filteredChallenges.map((challenge, index) => (
-              <ListItem
-                key={index}
-                component={Link}
-                to={`/challenge/${challenge.id}`}
-                className={`${classes.listItem} ${challenge.difficulty.toLowerCase()}`}
-                style={{
-                  pointerEvents: completedChallenges.includes(challenge.name)
-                    ? "none"
-                    : "auto",
-                  opacity: completedChallenges.includes(challenge.name) ? 0.5 : 1,
-                }}
-              >
-                <StyledPaper elevation={3}>
+              <StyledPaper key={index} elevation={3}>
+                <ListItem
+                  key={challenge.id}
+                  component={Link}
+                  to={`/challenge/${challenge.id}`}
+                  className={`${classes.listItem} ${challenge.difficulty.toLowerCase()}`}
+                  style={{
+                    pointerEvents: completedChallenges.includes(challenge.name) ? "none" : "auto",
+                    opacity: completedChallenges.includes(challenge.name) ? 0.5 : 1
+                  }}
+                >
                   <ListItemText primary={challenge.name} />
                   <Box>
-                    <Typography variant="body2" className={classes.points}>
+                    <Typography variant="body2" fontFamily={"monospace"} className={classes.points}>
                       {challenge.points}
                     </Typography>
                   </Box>
                   <Box className={classes.difficulty}>
-                    <Typography variant="body2">
+                    <Typography variant="body2"  >
                       Difficulty: {challenge.difficulty}
                     </Typography>
                   </Box>
                   {completedChallenges.includes(challenge.name) && (
                     <Box className={classes.completed}>
-                      <Typography variant="body2" color="green">
+                      <Typography variant="body2" color="green" fontFamily={"monospace"}  >
                         Completed
                       </Typography>
                     </Box>
                   )}
-                </StyledPaper>
-              </ListItem>
+                </ListItem>
+              </StyledPaper>
             ))}
           </List>
         </Box>

@@ -3,6 +3,8 @@
 import { makeStyles } from "@mui/styles";
 
 const useStyles = makeStyles({
+
+
   header: {
     background: "#1a1a1a",
     
@@ -46,7 +48,7 @@ const useStyles = makeStyles({
     "&::-webkit-scrollbar-thumb": {
       background: "#1a1a1a",
       borderRadius: "10px",
-      border: "1px solid #ff9966",
+      border: "1px solid #FF8C00",
     },
     marginBottom: "50px",
   },

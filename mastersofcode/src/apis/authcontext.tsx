@@ -1,6 +1,6 @@
-import React, { createContext, useContext, useState, ReactNode, useEffect } from 'react';
+import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react';
+import { jwtDecode } from 'jwt-decode';
 import axios from 'axios';
-import {jwtDecode} from 'jwt-decode';
 
 interface User {
   email: string;
@@ -19,19 +19,21 @@ const AuthContext = createContext<AuthContextType | undefined>(undefined);
 export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
   const [user, setUser] = useState<User | null>(null);
 
- 
-  const initializeUser = () => {
-    const token = localStorage.getItem('token');
-    if (token) {
-      const decoded: any = jwtDecode(token);
-      setUser({ email: decoded.email, userId: decoded.sub });
-    }
-  };
-
-  
   useEffect(() => {
+    const initializeUser = () => {
+      const token = localStorage.getItem('token');
+      if (token) {
+        try {
+          const decoded: any = jwtDecode(token);
+          setUser({ email: decoded.email, userId: decoded.sub });
+        } catch (error) {
+          console.error('Error decoding token:', error);
+          setUser(null);
+        }
+      }
+    };
     initializeUser();
-  }, []);
+  }, [])
 
   const login = async (email: string, password: string) => {
     try {

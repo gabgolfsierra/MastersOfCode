@@ -28,7 +28,7 @@ const useStyles = makeStyles(() => ({
     },
     title: {
       marginBottom: "20px",
-      color: '#ff9966',
+      color: '#FF8C00',
       fontFamily: 'monospace',
     },
     par: {
@@ -46,7 +46,7 @@ const useStyles = makeStyles(() => ({
     },
     submitButton: {
       backgroundColor: '#4caf50',
-      color: '#ff9966',
+      color: '#FF8C00',
       "&:hover": {
         backgroundColor: '#388e3c',
       },
