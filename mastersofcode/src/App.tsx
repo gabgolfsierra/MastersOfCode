@@ -12,6 +12,10 @@ import { LoginPage } from "./pages/login.page";
 import { SignupPage } from "./pages/signup.page";
 import { ThemeProvider, createTheme } from "@mui/material";
 import PrivateRoute from "./private.route";
+import { Challenge6 } from "./components/challenges/challenge6.component";
+import { Challenge7 } from "./components/challenges/challenge7.component";
+import { Challenge8 } from "./components/challenges/challenge8.component";
+import { Challenge9 } from "./components/challenges/challenge9.component";
 
 const darkTheme = createTheme({
   palette: {
@@ -33,6 +37,10 @@ const App: React.FC = () => {
         <Route path="/challenge/3" element={<PrivateRoute><Challenge3 /></PrivateRoute>} />
         <Route path="/challenge/4" element={<PrivateRoute><Challenge4 /></PrivateRoute>} />
         <Route path="/challenge/5" element={<PrivateRoute><Challenge5 /></PrivateRoute>} />
+        <Route path="/challenge/6" element={<PrivateRoute><Challenge6 /></PrivateRoute>} />
+        <Route path="/challenge/7" element={<PrivateRoute><Challenge7 /></PrivateRoute>} />
+        <Route path="/challenge/8" element={<PrivateRoute><Challenge8 /></PrivateRoute>} />
+        <Route path="/challenge/9" element={<PrivateRoute><Challenge9 /></PrivateRoute>} />
         <Route path="/login" element={<LoginPage />} />
         
         <Route path="/signup" element={<SignupPage />} />

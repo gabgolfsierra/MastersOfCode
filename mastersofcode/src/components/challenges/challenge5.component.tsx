@@ -7,60 +7,67 @@ import { javascript } from '@codemirror/lang-javascript';
 import { dracula } from '@uiw/codemirror-theme-dracula';
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+
 
 const useStyles = makeStyles(() => ({
-    root: {
-      display: "flex",
-      flexDirection: "column",
-      justifyContent: "center",
-      marginTop:"90px",
-      backgroundColor: 'rgba(0, 0, 0, 0.1)',
-      padding: '24px',
-      borderRadius: '80px',
-      boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)',
-     
-     
+
+
+
+    backButton: {
+        backgroundColor: '#FF8C00',
+        color: 'white',
+        marginBottom: '20px',
+        "&:hover": {
+            backgroundColor: '#FF8C00',
+        },
     },
-    
-    
+
+    root: {
+        display: "flex",
+        flexDirection: "column",
+        justifyContent: "center",
+        marginTop: "90px",
+        backgroundColor: 'rgba(0, 0, 0, 0.1)',
+        padding: '24px',
+        borderRadius: '80px',
+        boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)',
+
+
+    },
+
+
     editorContainer: {
-     marginTop: "30px",
+        marginTop: "30px",
     },
     title: {
-      marginBottom: "20px",
-      color: '#FF8C00',
-      fontFamily: 'monospace',
+        marginBottom: "20px",
+        color: '#FF8C00',
+        fontFamily: 'monospace',
     },
     par: {
-      marginBottom: "10px",
-      color: 'white',
-      fontFamily: 'monospace', 
+        marginBottom: "10px",
+        color: 'white',
+        fontFamily: 'monospace',
     },
     but: {
-      color: 'white',
-      fontFamily: 'monospace', 
+        color: 'white',
+        fontFamily: 'monospace',
     },
     codeMirror: {
-      marginBottom: "20px",
-      textAlign: "left",
+        marginBottom: "20px",
+        textAlign: "left",
     },
     submitButton: {
-      backgroundColor: '#4caf50',
-      color: '#FF8C00',
-      "&:hover": {
-        backgroundColor: '#388e3c',
-      },
+        backgroundColor: '#4caf50',
+        color: '#FF8C00',
+        "&:hover": {
+            backgroundColor: '#388e3c',
+        },
     },
-    logsContainer: {
-      marginTop: "20px",
-      padding: "10px",
-      backgroundColor: "#f7f7f7",
-      borderRadius: "4px",
-      textAlign: "left",
-      flex: 1,
-    },
-  }));
-  
+   
+}));
+
 
 const Challenge5: React.FC = () => {
     const classes = useStyles();
@@ -80,59 +87,58 @@ const Challenge5: React.FC = () => {
 
     const [testResults, setTestResults] = useState<TestResult | null>(null);
     const [open, setOpen] = useState(false);
-    const [messages, setMessages] = useState<Message[]>([]);
+    const [messages, setMessages] = useState<any[]>([]);
     const [errorLogs, setErrorLogs] = useState<string[]>([]);
     const [loading, setLoading] = useState(false);
 
     const submitCode = async () => {
         try {
-          setLoading(true);
-          const response = await axios.post(
-            "http://localhost:3002/challenge/5",
-            { code }
-          );
-          console.log(response.data);
-          setTestResults(response.data.output);
+            setLoading(true);
+            const response = await axios.post("http://localhost:3002/challenge/5", { code });
+            console.log(response.data);
+            setTestResults(response.data.output);
         } catch (error: any) {
-          console.error("Error to send your code: ", error);
-          setTestResults(null);
-          let errorMessage = error.toString() || "Unknown error occurred";
-          setErrorLogs([...errorLogs, errorMessage]);
+            console.error("Error to send your code: ", error);
+            setTestResults(null);
+            let errorMessage = error.toString() || "Unknown error occurred";
+            setErrorLogs([...errorLogs, errorMessage]);
         } finally {
-          setLoading(false);
+            setLoading(false);
         }
-      };
-    
-    
-      useEffect(() => {
+    };
+
+    useEffect(() => {
+        const intervalId = setInterval(() => {
+            setErrorLogs([]);
+        }, 10000);
+
+        return () => {
+            clearInterval(intervalId);
+        };
+    }, []);
+
+    useEffect(() => {
         if (testResults) {
-          const passMessages: Message[] = testResults.passes.map(() => ({
-            type: "success",
-            message: "CONGRATULATIONS!! YOU EARNED 25 POINTS!",
-            
-          }));
-          
-          const failMessages: Message[] = testResults.failures.map((failure) => ({
-            type: "error",
-            message: "FAIL! TRY AGAIN",
-            details: failure.err.message,
-          }));
-          setMessages([...passMessages, ...failMessages]);
-          setOpen(true);
-          setLoading(false);
-    
-          // Mark challenge as completed and redirect after 3 seconds
-          setTimeout(() => {
-            const completedChallenges =
-              JSON.parse(localStorage.getItem("completedChallenges") || "[]") || [];
-            localStorage.setItem(
-              "completedChallenges",
-              JSON.stringify([...completedChallenges, "Less Than 100?"])
-            );
-            navigate("/");
-          }, 3000);
+            const passMessages = testResults.passes.map(() => ({
+                type: "success",
+                message: "CONGRATULATIONS!! YOU EARNED 25 POINTS!",
+            }));
+            const failMessages = testResults.failures.map((failure) => ({
+                type: "error",
+                message: "FAIL! TRY AGAIN",
+                details: failure.err.message,
+            }));
+            setMessages([...passMessages, ...failMessages]);
+            setOpen(true);
+            setLoading(false);
+
+            if (testResults.failures.length === 0) {
+                setTimeout(() => {
+                    navigate("/");
+                }, 3000);
+            }
         }
-      }, [testResults, navigate]);
+    }, [testResults, navigate]);
 
     const handleClose = () => {
         setOpen(false);
@@ -163,107 +169,95 @@ const Challenge5: React.FC = () => {
         );
     };
 
-    const renderErrorLogs = () => {
-        return (
-            <React.Fragment>
-                {errorLogs.map((log, index) => (
-                    <Snackbar
-                        key={index}
-                        open={true}
-                        autoHideDuration={8000}
-                        onClose={() => setErrorLogs(errorLogs.filter((_, i) => i !== index))}
-                        anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
-                    >
-                        <MuiAlert onClose={() => setErrorLogs(errorLogs.filter((_, i) => i !== index))} severity="error">
-                            {log}
-                        </MuiAlert>
-                    </Snackbar>
-                ))}
-            </React.Fragment>
-        );
-    };
+
 
     return (
 
-        <Box className={classes.root}>
-            <Container className={classes.editorContainer}>
-                <Typography variant="h6" className={classes.title}>
-                Given two numbers, return true if the sum of both numbers is less than 100. Otherwise return false.
-                </Typography>
-                <div className={classes.codeMirror}>
-                    <CodeMirror
-                        value={code}
-                        theme={dracula}
-                        height="300px"
-                        extensions={[javascript({ jsx: true })]}
-                        onChange={(editor, change) => {
-                            setCode(editor);
-                        }}
-                    />
-                </div>
-                <Button
-                    variant="contained"
-                    className={classes.submitButton}
-                    onClick={submitCode}
-                    disabled={loading}
-                >
-                    {loading ? (
-                        <CircularProgress size={24} color="secondary" />
-                    ) : (
-                        "Submit"
-                    )}
-                </Button>
-               
-            
-                {renderTestResults()}
-                {renderErrorLogs()}
-            </Container>
+        <><Button
+            variant="outlined"
+            className={classes.backButton}
+            startIcon={<ArrowBackIcon />}
+            onClick={() => navigate("/")}
+        >
+            Return
+        </Button><Box className={classes.root}>
+                <Container className={classes.editorContainer}>
+                    <Typography variant="h6" className={classes.title}>
+                        Given two numbers, return true if the sum of both numbers is less than 100. Otherwise return false.
+                    </Typography>
+                    <div className={classes.codeMirror}>
+                        <CodeMirror
+                            value={code}
+                            theme={dracula}
+                            height="300px"
+                            extensions={[javascript({ jsx: true })]}
+                            onChange={(editor, change) => {
+                                setCode(editor);
+                            }} />
+                    </div>
+                    <Button
+                        variant="contained"
+                        className={classes.submitButton}
+                        onClick={submitCode}
+                        disabled={loading}
+                    >
+                        {loading ? (
+                            <CircularProgress size={24} color="secondary" />
+                        ) : (
+                            "Submit"
+                        )}
+                    </Button>
 
-            <Container className={classes.editorContainer}>
-                <Typography variant="h5" className={classes.title}>
-                    Test Cases
-                </Typography>
 
-                <div style={{ display: 'flex', flexDirection: 'row' }}>
-                    <div style={{ marginRight: '120px' }}>
-                        <div style={{ marginBottom: '20px' }}>
-                            <Typography variant="body1" className={classes.title}>
-                                Example 1:
-                            </Typography>
-                            <div style={{ display: 'flex', flexDirection: 'column' }}>
-                                <Typography variant="overline" className={classes.par}>
-                                    Input: lessThan100(22,  15)
+                    {renderTestResults()}
+
+                </Container>
+
+                <Container className={classes.editorContainer}>
+                    <Typography variant="h5" className={classes.title}>
+                        Test Cases
+                    </Typography>
+
+                    <div style={{ display: 'flex', flexDirection: 'row' }}>
+                        <div style={{ marginRight: '120px' }}>
+                            <div style={{ marginBottom: '20px' }}>
+                                <Typography variant="body1" className={classes.title}>
+                                    Example 1:
                                 </Typography>
-                                <Typography variant="overline" className={classes.par}>
-                                    Output: true
-                                </Typography>
+                                <div style={{ display: 'flex', flexDirection: 'column' }}>
+                                    <Typography variant="overline" className={classes.par}>
+                                        Input: lessThan100(22,  15)
+                                    </Typography>
+                                    <Typography variant="overline" className={classes.par}>
+                                        Output: true
+                                    </Typography>
+                                </div>
                             </div>
-                        </div>
 
-                        <div style={{ marginBottom: '20px' }}>
-                            <Typography variant="body1" className={classes.title}>
-                                Example 2:
-                            </Typography>
-                            <div style={{ display: 'flex', flexDirection: 'column' }}>
-                                <Typography variant="overline" className={classes.par}>
-                                    Input: lessThan100(83, 34)
+                            <div style={{ marginBottom: '20px' }}>
+                                <Typography variant="body1" className={classes.title}>
+                                    Example 2:
                                 </Typography>
-                                <Typography variant="overline" className={classes.par}>
-                                    Output: false
-                                </Typography>
+                                <div style={{ display: 'flex', flexDirection: 'column' }}>
+                                    <Typography variant="overline" className={classes.par}>
+                                        Input: lessThan100(83, 34)
+                                    </Typography>
+                                    <Typography variant="overline" className={classes.par}>
+                                        Output: false
+                                    </Typography>
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
 
-                <div style={{ position: 'relative', marginBottom: '20px', display: 'flex', alignItems: 'flex-end', justifyContent: 'flex-end' }}>
-                    <Typography variant="body1" className={classes.but}>
-                        Difficulty: Intern 
-                    </Typography>
-                    <div style={{ width: '10px', height: '10px', backgroundColor: 'green', marginLeft: '10px', marginBottom: '6px' }}></div>
-                </div>
-            </Container>
-        </Box>
+                    <div style={{ position: 'relative', marginBottom: '20px', display: 'flex', alignItems: 'flex-end', justifyContent: 'flex-end' }}>
+                        <Typography variant="body1" className={classes.but}>
+                            Difficulty: Intern
+                        </Typography>
+                        <div style={{ width: '10px', height: '10px', backgroundColor: 'green', marginLeft: '10px', marginBottom: '6px' }}></div>
+                    </div>
+                </Container>
+            </Box></>
     );
 }
 

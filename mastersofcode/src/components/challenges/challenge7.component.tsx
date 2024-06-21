@@ -11,17 +11,6 @@ import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 
 
 const useStyles = makeStyles(() => ({
-
-    backButton: {
-        backgroundColor: '#FF8C00',
-        color: 'white',
-        marginBottom: '20px',
-        "&:hover": {
-            backgroundColor: '#FF8C00',
-        },
-    },
-
-
     root: {
         display: "flex",
         flexDirection: "column",
@@ -35,6 +24,14 @@ const useStyles = makeStyles(() => ({
 
     },
 
+    backButton: {
+        backgroundColor: '#FF8C00',
+        color: 'white',
+        marginBottom: '20px',
+        "&:hover": {
+            backgroundColor: '#FF8C00',
+        },
+    },
 
     editorContainer: {
         marginTop: "30px",
@@ -67,11 +64,11 @@ const useStyles = makeStyles(() => ({
 }));
 
 
-const Challenge4: React.FC = () => {
+const Challenge7: React.FC = () => {
     const classes = useStyles();
     const navigate = useNavigate();
     const theme = useTheme();
-    const [code, setCode] = useState('var isPalindrome = function(head) { \n\n\n //Your code here \n\n\n }\n\n\n\n module.exports = { isPalindrome }; ');
+    const [code, setCode] = useState('var numberToWords = function(num) { \n\n\n //Your code here \n\n\n }\n\n\n\n module.exports = { numberToWords }; ');
     interface TestResult {
         passes: { fullTitle: string }[];
         failures: { fullTitle: string, err: { message: string, stack: string } }[];
@@ -92,7 +89,7 @@ const Challenge4: React.FC = () => {
     const submitCode = async () => {
         try {
             setLoading(true);
-            const response = await axios.post("http://localhost:3002/challenge/4", { code });
+            const response = await axios.post("http://localhost:3002/challenge/7", { code });
             console.log(response.data);
             setTestResults(response.data.output);
         } catch (error: any) {
@@ -119,7 +116,7 @@ const Challenge4: React.FC = () => {
         if (testResults) {
             const passMessages = testResults.passes.map(() => ({
                 type: "success",
-                message: "CONGRATULATIONS!! YOU EARNED 50 POINTS!",
+                message: "CONGRATULATIONS!! YOU EARNED 500 POINTS!",
             }));
             const failMessages = testResults.failures.map((failure) => ({
                 type: "error",
@@ -181,8 +178,7 @@ const Challenge4: React.FC = () => {
         </Button><Box className={classes.root}>
                 <Container className={classes.editorContainer}>
                     <Typography variant="h6" className={classes.title}>
-                        Given the head of a singly linked list, return true if it is a
-                        palindrome or false otherwise.
+                    Convert a non-negative integer num to its English words representation.
                     </Typography>
                     <div className={classes.codeMirror}>
                         <CodeMirror
@@ -225,10 +221,10 @@ const Challenge4: React.FC = () => {
                                 </Typography>
                                 <div style={{ display: 'flex', flexDirection: 'column' }}>
                                     <Typography variant="overline" className={classes.par}>
-                                        Input: head = [1, 2, 2, 1]
+                                        Input: num = 123
                                     </Typography>
                                     <Typography variant="overline" className={classes.par}>
-                                        Output: true
+                                        Output: "One Hundred Twenty Three"
                                     </Typography>
                                 </div>
                             </div>
@@ -239,10 +235,24 @@ const Challenge4: React.FC = () => {
                                 </Typography>
                                 <div style={{ display: 'flex', flexDirection: 'column' }}>
                                     <Typography variant="overline" className={classes.par}>
-                                        Input: head = [1, 2]
+                                        Input: num = 12345
                                     </Typography>
                                     <Typography variant="overline" className={classes.par}>
-                                        Output: false
+                                        Output: "Twelve Thousand Three Hundred Forty Five"
+                                    </Typography>
+                                </div>
+                            </div>
+
+                            <div style={{ marginBottom: '20px' }}>
+                                <Typography variant="body1" className={classes.title}>
+                                    Example 3:
+                                </Typography>
+                                <div style={{ display: 'flex', flexDirection: 'column' }}>
+                                    <Typography variant="overline" className={classes.par}>
+                                        Input: num = 1234567
+                                    </Typography>
+                                    <Typography variant="overline" className={classes.par}>
+                                        Output: "One Million Two Hundred Thirty Four Thousand Five Hundred Sixty Seven"
                                     </Typography>
                                 </div>
                             </div>
@@ -251,14 +261,14 @@ const Challenge4: React.FC = () => {
 
                     <div style={{ position: 'relative', marginBottom: '20px', display: 'flex', alignItems: 'flex-end', justifyContent: 'flex-end' }}>
                         <Typography variant="body1" className={classes.but}>
-                            Difficulty: Junior
+                            Difficulty: Senior
                         </Typography>
-                        <div style={{ width: '10px', height: '10px', backgroundColor: 'yellow', marginLeft: '10px', marginBottom: '6px' }}></div>
+                        <div style={{ width: '10px', height: '10px', backgroundColor: 'purple', marginLeft: '10px', marginBottom: '6px' }}></div>
                     </div>
                 </Container>
             </Box></>
     );
 }
 
-export { Challenge4 };
+export { Challenge7 };
 

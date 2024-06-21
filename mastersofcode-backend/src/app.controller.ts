@@ -306,7 +306,124 @@ describe('isPalindrome function', () => {
   }
 
 
+ // Integer to English Words Challenge
+
+ @Post('/7')
+  async CodeReceiver7(@Request() req, @Response() res): Promise<any> {
+    const userCode = req.body.code;
 
 
+    fs.writeFileSync('userCode.js', userCode);
+
+    const testCode = `
+    const assert = require('assert');
+    const { numberToWords } = require('./userCode');
+    
+    describe('numberToWords function', () => {
+      it('should return "One Hundred Twenty Three" for numberToWords(123)', () => {
+        assert.strictEqual(numberToWords(123), 'One Hundred Twenty Three', 'The number 123 should be converted to "One Hundred Twenty Three"');
+      });
+  
+      it('should return "Twelve Thousand Three Hundred Forty Five" for numberToWords(12345)', () => {
+        assert.strictEqual(numberToWords(12345), 'Twelve Thousand Three Hundred Forty Five', 'The number 12345 should be converted to "Twelve Thousand Three Hundred Forty Five"');
+      });
+  
+      it('should return "One Million Two Hundred Thirty Four Thousand Five Hundred Sixty Seven" for numberToWords(1234567)', () => {
+        assert.strictEqual(numberToWords(1234567), 'One Million Two Hundred Thirty Four Thousand Five Hundred Sixty Seven', 'The number 1234567 should be converted to "One Million Two Hundred Thirty Four Thousand Five Hundred Sixty Seven"');
+      });
+
+      it('should return "Zero" for numberToWords(0)', () => {
+        assert.strictEqual(numberToWords(0), 'Zero', 'The number 0 should be converted to "Zero"');
+      });
+
+      it('should return "One Thousand" for numberToWords(1000)', () => {
+        assert.strictEqual(numberToWords(1000), 'One Thousand', 'The number 1000 should be converted to "One Thousand"');
+      });
+
+      it('should return "One Million" for numberToWords(1000000)', () => {
+        assert.strictEqual(numberToWords(1000000), 'One Million', 'The number 1000000 should be converted to "One Million"');
+      });
+
+      it('should return "Ninety Nine" for numberToWords(99)', () => {
+        assert.strictEqual(numberToWords(99), 'Ninety Nine', 'The number 99 should be converted to "Ninety Nine"');
+      });
+
+      it('should return "Seven Hundred Twenty Three Thousand Eight Hundred Forty Five" for numberToWords(723845)', () => {
+        assert.strictEqual(numberToWords(723845), 'Seven Hundred Twenty Three Thousand Eight Hundred Forty Five', 'The number 723845 should be converted to "Seven Hundred Twenty Three Thousand Eight Hundred Forty Five"');
+      });
+    });
+  `;
+    fs.writeFileSync('test.js', testCode);
+
+    exec('npx mocha test.js --reporter json', (error, stdout, stderr) => {
+      if (error) {
+        console.error(`Erro ao executar os testes: ${stderr}`);
+        try {
+          const testResults = JSON.parse(stdout);
+          res.status(200).json({ success: true, output: testResults });
+        } catch (parseError) {
+          res.status(400).json({ success: false, output: stderr });
+        }
+      } else {
+        const testResults = JSON.parse(stdout);
+        console.log(`Saída dos testes: ${stdout}`);
+        res.status(200).json({ success: true, output: testResults });
+      }
+
+      fs.unlinkSync('userCode.js');
+      fs.unlinkSync('test.js');
+    });
+  }
+
+
+  // SuperPow Challenge
+  @Post('/8')
+  async CodeReceiver8(@Request() req, @Response() res): Promise<any> {
+    const userCode = req.body.code;
+
+
+    fs.writeFileSync('userCode.js', userCode);
+
+    const testCode = `
+      const assert = require('assert');
+      const { superPow } = require('./userCode');
+      
+      describe('superPow function', () => {
+        it('should return 8 for superPow(2, [3])', () => {
+          assert.strictEqual(superPow(2, [3]), 8, 'The result of 2^3 mod 1337 should be 8');
+        });
+    
+        it('should return 1024 for superPow(2, [1,0])', () => {
+          assert.strictEqual(superPow(2, [1, 0]), 1024, 'The result of 2^10 mod 1337 should be 1024');
+        });
+    
+        it('should return 1 for superPow(1, [4, 3, 3, 8, 5, 2])', () => {
+          assert.strictEqual(superPow(1, [4, 3, 3, 8, 5, 2]), 1, 'The result of 1^433852 mod 1337 should be 1');
+        });
+      });
+    `;
+
+
+    fs.writeFileSync('test.js', testCode);
+
+    exec('npx mocha test.js --reporter json', (error, stdout, stderr) => {
+      if (error) {
+        console.error(`Erro ao executar os testes: ${stderr}`);
+        try {
+          const testResults = JSON.parse(stdout);
+          res.status(200).json({ success: true, output: testResults });
+        } catch (parseError) {
+          res.status(400).json({ success: false, output: stderr });
+        }
+      } else {
+        const testResults = JSON.parse(stdout);
+        console.log(`Saída dos testes: ${stdout}`);
+        res.status(200).json({ success: true, output: testResults });
+      }
+
+      fs.unlinkSync('userCode.js');
+      fs.unlinkSync('test.js');
+    });
+  }
 
 }
