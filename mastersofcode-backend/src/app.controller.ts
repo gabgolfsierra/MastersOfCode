@@ -305,6 +305,66 @@ describe('isPalindrome function', () => {
     });
   }
 
+  // Permutations
+
+  @Post('/6')
+  async CodeReceiver6(@Request() req, @Response() res): Promise<any> {
+    const userCode = req.body.code;
+
+
+    fs.writeFileSync('userCode.js', userCode);
+
+    const testCode = `
+      const assert = require('assert');
+      const { permute } = require('./userCode');
+      
+      describe('permute function', () => {
+        it('should return all permutations for permute([1, 2, 3])', () => {
+          const result = permute([1, 2, 3]);
+          const expected = [
+            [1, 2, 3], [1, 3, 2], [2, 1, 3], [2, 3, 1], [3, 1, 2], [3, 2, 1]
+          ];
+          assert.deepStrictEqual(result.sort(), expected.sort(), 'The permutations of [1, 2, 3] should match the expected output');
+        });
+    
+        it('should return all permutations for permute([0, 1])', () => {
+          const result = permute([0, 1]);
+          const expected = [
+            [0, 1], [1, 0]
+          ];
+          assert.deepStrictEqual(result.sort(), expected.sort(), 'The permutations of [0, 1] should match the expected output');
+        });
+    
+        it('should return all permutations for permute([1])', () => {
+          const result = permute([1]);
+          const expected = [
+            [1]
+          ];
+          assert.deepStrictEqual(result, expected, 'The permutations of [1] should match the expected output');
+        });
+      });
+    `;
+    fs.writeFileSync('test.js', testCode);
+
+    exec('npx mocha test.js --reporter json', (error, stdout, stderr) => {
+      if (error) {
+        console.error(`Erro ao executar os testes: ${stderr}`);
+        try {
+          const testResults = JSON.parse(stdout);
+          res.status(200).json({ success: true, output: testResults });
+        } catch (parseError) {
+          res.status(400).json({ success: false, output: stderr });
+        }
+      } else {
+        const testResults = JSON.parse(stdout);
+        console.log(`Saída dos testes: ${stdout}`);
+        res.status(200).json({ success: true, output: testResults });
+      }
+
+      fs.unlinkSync('userCode.js');
+      fs.unlinkSync('test.js');
+    });
+  }
 
  // Integer to English Words Challenge
 
@@ -402,6 +462,293 @@ describe('isPalindrome function', () => {
         });
       });
     `;
+
+
+    fs.writeFileSync('test.js', testCode);
+
+    exec('npx mocha test.js --reporter json', (error, stdout, stderr) => {
+      if (error) {
+        console.error(`Erro ao executar os testes: ${stderr}`);
+        try {
+          const testResults = JSON.parse(stdout);
+          res.status(200).json({ success: true, output: testResults });
+        } catch (parseError) {
+          res.status(400).json({ success: false, output: stderr });
+        }
+      } else {
+        const testResults = JSON.parse(stdout);
+        console.log(`Saída dos testes: ${stdout}`);
+        res.status(200).json({ success: true, output: testResults });
+      }
+
+      fs.unlinkSync('userCode.js');
+      fs.unlinkSync('test.js');
+    });
+  }
+
+  // Longest Substring Without Reapting Challenge
+  @Post('/9')
+  async CodeReceiver9(@Request() req, @Response() res): Promise<any> {
+    const userCode = req.body.code;
+
+
+    fs.writeFileSync('userCode.js', userCode);
+
+    const testCode = `
+      const assert = require('assert');
+      const { lengthOfLongestSubstring } = require('./userCode');
+      
+      describe('lengthOfLongestSubstring function', () => {
+        it('should return 3 for lengthOfLongestSubstring("ABCABCBB")', () => {
+          const result = lengthOfLongestSubstring("ABCABCBB");
+          const expected = 3;
+          assert.strictEqual(result, expected, 'The length of the longest substring without repeating characters in "ABCABCBB" should be 3');
+        });
+    
+        it('should return 1 for lengthOfLongestSubstring("BBBBB")', () => {
+          const result = lengthOfLongestSubstring("BBBBB");
+          const expected = 1;
+          assert.strictEqual(result, expected, 'The length of the longest substring without repeating characters in "BBBBB" should be 1');
+        });
+    
+        it('should return 3 for lengthOfLongestSubstring("PWWKEW")', () => {
+          const result = lengthOfLongestSubstring("PWWKEW");
+          const expected = 3;
+          assert.strictEqual(result, expected, 'The length of the longest substring without repeating characters in "PWWKEW" should be 3');
+        });
+      });
+    `;
+
+
+
+    fs.writeFileSync('test.js', testCode);
+
+    exec('npx mocha test.js --reporter json', (error, stdout, stderr) => {
+      if (error) {
+        console.error(`Erro ao executar os testes: ${stderr}`);
+        try {
+          const testResults = JSON.parse(stdout);
+          res.status(200).json({ success: true, output: testResults });
+        } catch (parseError) {
+          res.status(400).json({ success: false, output: stderr });
+        }
+      } else {
+        const testResults = JSON.parse(stdout);
+        console.log(`Saída dos testes: ${stdout}`);
+        res.status(200).json({ success: true, output: testResults });
+      }
+
+      fs.unlinkSync('userCode.js');
+      fs.unlinkSync('test.js');
+    });
+  }
+
+  // Group Anagrams Challenge
+  @Post('/10')
+  async CodeReceiver10(@Request() req, @Response() res): Promise<any> {
+    const userCode = req.body.code;
+
+
+    fs.writeFileSync('userCode.js', userCode);
+
+    const testCode = `
+      const assert = require('assert');
+      const { permute } = require('./userCode');
+      
+      describe('permute function', () => {
+        it('should return all permutations for permute([1, 2, 3])', () => {
+          const result = permute([1, 2, 3]);
+          const expected = [
+            [1, 2, 3], [1, 3, 2], [2, 1, 3], [2, 3, 1], [3, 1, 2], [3, 2, 1]
+          ];
+          assert.deepStrictEqual(result.sort(), expected.sort(), 'The permutations of [1, 2, 3] should match the expected output');
+        });
+    
+        it('should return all permutations for permute([0, 1])', () => {
+          const result = permute([0, 1]);
+          const expected = [
+            [0, 1], [1, 0]
+          ];
+          assert.deepStrictEqual(result.sort(), expected.sort(), 'The permutations of [0, 1] should match the expected output');
+        });
+    
+        it('should return all permutations for permute([1])', () => {
+          const result = permute([1]);
+          const expected = [
+            [1]
+          ];
+          assert.deepStrictEqual(result, expected, 'The permutations of [1] should match the expected output');
+        });
+      });
+    `;
+
+
+
+
+    fs.writeFileSync('test.js', testCode);
+
+    exec('npx mocha test.js --reporter json', (error, stdout, stderr) => {
+      if (error) {
+        console.error(`Erro ao executar os testes: ${stderr}`);
+        try {
+          const testResults = JSON.parse(stdout);
+          res.status(200).json({ success: true, output: testResults });
+        } catch (parseError) {
+          res.status(400).json({ success: false, output: stderr });
+        }
+      } else {
+        const testResults = JSON.parse(stdout);
+        console.log(`Saída dos testes: ${stdout}`);
+        res.status(200).json({ success: true, output: testResults });
+      }
+
+      fs.unlinkSync('userCode.js');
+      fs.unlinkSync('test.js');
+    });
+  }
+
+  // Multiplication Table Challenge
+
+  @Post('/11')
+  async CodeReceiver11(@Request() req, @Response() res): Promise<any> {
+    const userCode = req.body.code;
+
+
+    fs.writeFileSync('userCode.js', userCode);
+
+    const testCode = `
+    const assert = require('assert');
+    const { multiplicationTable } = require('./userCode');
+    
+    describe('multiplicationTable function', () => {
+      it('should return the multiplication table for 2', () => {
+        const result = multiplicationTable(2);
+        const expected = [
+          '2 * 1 = 2',
+          '2 * 2 = 4',
+          '2 * 3 = 6',
+          '2 * 4 = 8',
+          '2 * 5 = 10',
+          '2 * 6 = 12',
+          '2 * 7 = 14',
+          '2 * 8 = 16',
+          '2 * 9 = 18',
+          '2 * 10 = 20'
+        ];
+        assert.deepStrictEqual(result, expected, 'The multiplication table for 2 should match the expected output');
+      });
+  
+      it('should return the multiplication table for 5', () => {
+        const result = multiplicationTable(5);
+        const expected = [
+          '5 * 1 = 5',
+          '5 * 2 = 10',
+          '5 * 3 = 15',
+          '5 * 4 = 20',
+          '5 * 5 = 25',
+          '5 * 6 = 30',
+          '5 * 7 = 35',
+          '5 * 8 = 40',
+          '5 * 9 = 45',
+          '5 * 10 = 50'
+        ];
+        assert.deepStrictEqual(result, expected, 'The multiplication table for 5 should match the expected output');
+      });
+  
+      it('should return the multiplication table for 10', () => {
+        const result = multiplicationTable(10);
+        const expected = [
+          '10 * 1 = 10',
+          '10 * 2 = 20',
+          '10 * 3 = 30',
+          '10 * 4 = 40',
+          '10 * 5 = 50',
+          '10 * 6 = 60',
+          '10 * 7 = 70',
+          '10 * 8 = 80',
+          '10 * 9 = 90',
+          '10 * 10 = 100'
+        ];
+        assert.deepStrictEqual(result, expected, 'The multiplication table for 10 should match the expected output');
+      });
+    });
+  `;
+
+       
+
+
+
+
+    fs.writeFileSync('test.js', testCode);
+
+    exec('npx mocha test.js --reporter json', (error, stdout, stderr) => {
+      if (error) {
+        console.error(`Erro ao executar os testes: ${stderr}`);
+        try {
+          const testResults = JSON.parse(stdout);
+          res.status(200).json({ success: true, output: testResults });
+        } catch (parseError) {
+          res.status(400).json({ success: false, output: stderr });
+        }
+      } else {
+        const testResults = JSON.parse(stdout);
+        console.log(`Saída dos testes: ${stdout}`);
+        res.status(200).json({ success: true, output: testResults });
+      }
+
+      fs.unlinkSync('userCode.js');
+      fs.unlinkSync('test.js');
+    });
+  }
+
+  // Regular Expressing Matching Challenge
+
+  @Post('/12')
+  async CodeReceiver12(@Request() req, @Response() res): Promise<any> {
+    const userCode = req.body.code;
+
+
+    fs.writeFileSync('userCode.js', userCode);
+
+    const testCode = `
+      const assert = require('assert');
+      const { isMatch } = require('./userCode');
+      
+      describe('isMatch function', () => {
+        it('should return false for isMatch("aa", "a")', () => {
+          const result = isMatch("aa", "a");
+          const expected = false;
+          assert.strictEqual(result, expected, 'The pattern "a" does not match the entire string "aa"');
+        });
+    
+        it('should return true for isMatch("aa", "a*")', () => {
+          const result = isMatch("aa", "a*");
+          const expected = true;
+          assert.strictEqual(result, expected, 'The pattern "a*" matches the entire string "aa"');
+        });
+    
+        it('should return true for isMatch("ab", ".*")', () => {
+          const result = isMatch("ab", ".*");
+          const expected = true;
+          assert.strictEqual(result, expected, 'The pattern ".*" matches the entire string "ab"');
+        });
+
+        it('should return true for isMatch("aab", "c*a*b")', () => {
+          const result = isMatch("aab", "c*a*b");
+          const expected = true;
+          assert.strictEqual(result, expected, 'The pattern "c*a*b" matches the entire string "aab"');
+        });
+
+        it('should return false for isMatch("mississippi", "mis*is*p*.")', () => {
+          const result = isMatch("mississippi", "mis*is*p*.");
+          const expected = false;
+          assert.strictEqual(result, expected, 'The pattern "mis*is*p*." does not match the entire string "mississippi"');
+        });
+      });
+    `;
+
+
+
 
 
     fs.writeFileSync('test.js', testCode);

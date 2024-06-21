@@ -16,7 +16,10 @@ const challenges: Challenge[] = [
   { id: 6, name: "Permutations", difficulty: "Middle", points: "100 points" },
   { id: 7, name: "Integer to English Words", difficulty: "Senior", points: "500 points" },
   { id: 8, name: "Super Pow", difficulty: "Senior", points: "500 points" },
-  { id: 9, name: "Longest Substring Without Repeating ", difficulty: "Middle", points: "100 points" },
+  { id: 9, name: "Longest Substring Without Repeating", difficulty: "Middle", points: "100 points" },
+  { id: 10, name: "Group Anagrams", difficulty: "Middle", points: "100 points" },
+  { id: 11, name: "Multiplication Table", difficulty: "Intern", points: "25 points" },
+  { id: 12, name: "Regular Expressing Matching", difficulty: "Senior", points: "500 points" },
 ];
 
 

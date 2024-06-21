@@ -65,11 +65,11 @@ const useStyles = makeStyles(() => ({
 }));
 
 
-const Challenge9: React.FC = () => {
+const Challenge10: React.FC = () => {
     const classes = useStyles();
     const navigate = useNavigate();
     const theme = useTheme();
-    const [code, setCode] = useState('var lengthOfLongestSubstring = function(s) { \n\n\n //Your code here \n\n\n }\n\n\n\n module.exports = { lengthOfLongestSubstring }; ');
+    const [code, setCode] = useState('var groupAnagrams = function(strs) { \n\n\n //Your code here \n\n\n }\n\n\n\n module.exports = { groupAnagrams }; ');
     interface TestResult {
         passes: { fullTitle: string }[];
         failures: { fullTitle: string, err: { message: string, stack: string } }[];
@@ -90,7 +90,7 @@ const Challenge9: React.FC = () => {
     const submitCode = async () => {
         try {
             setLoading(true);
-            const response = await axios.post("http://localhost:3002/challenge/9", { code });
+            const response = await axios.post("http://localhost:3002/challenge/10", { code });
             console.log(response.data);
             setTestResults(response.data.output);
         } catch (error: any) {
@@ -179,8 +179,8 @@ const Challenge9: React.FC = () => {
         </Button><Box className={classes.root}>
                 <Container className={classes.editorContainer}>
                     <Typography variant="h6" className={classes.title}>
-                    Given a string s, find the length of the longest substring without repeating characters. 
-                    ( A substring is a contiguous non-empty sequence of characters within a string.)
+                    Given an array of strings strs, group the anagrams together. You can return the answer in any order.
+                    An Anagram is a word or phrase formed by rearranging the letters of a different word or phrase, typically using all the original letters exactly once.
                     </Typography>
                     <div className={classes.codeMirror}>
                         <CodeMirror
@@ -223,13 +223,10 @@ const Challenge9: React.FC = () => {
                                 </Typography>
                                 <div style={{ display: 'flex', flexDirection: 'column' }}>
                                     <Typography variant="overline" className={classes.par}>
-                                        Input: s = "abcabcbb"
+                                        Input: s strs = ["eat", "tea", "tan", "ate", "nat", "bat"]
                                     </Typography>
                                     <Typography variant="overline" className={classes.par}>
-                                        Output: 3
-                                    </Typography>
-                                    <Typography variant="overline" className={classes.par}>
-                                    Explanation: The answer is "abc", with the length of 3.
+                                        Output: [["bat"], ["nat", "tan"], ["ate", "eat", "tea"]]
                                     </Typography>
                                 </div>
                             </div>
@@ -240,13 +237,10 @@ const Challenge9: React.FC = () => {
                                 </Typography>
                                 <div style={{ display: 'flex', flexDirection: 'column' }}>
                                     <Typography variant="overline" className={classes.par}>
-                                        Input: s = "bbbbb"
+                                        Input: strs = [""]
                                     </Typography>
                                     <Typography variant="overline" className={classes.par}>
-                                        Output: 1
-                                    </Typography>
-                                    <Typography variant="overline" className={classes.par}>
-                                    Explanation: The answer is "b", with the length of 1.
+                                        Output: [[""]]
                                     </Typography>
                                 </div>
                             </div>
@@ -257,14 +251,10 @@ const Challenge9: React.FC = () => {
                                 </Typography>
                                 <div style={{ display: 'flex', flexDirection: 'column' }}>
                                     <Typography variant="overline" className={classes.par}>
-                                        Input:  s = "pwwkew"
+                                        Input:  strs = ["a"]
                                     </Typography>
                                     <Typography variant="overline" className={classes.par}>
-                                        Output: 3
-                                    </Typography>
-                                    <Typography variant="overline" className={classes.par}>
-                                    Explanation: The answer is "wke", with the length of 3.
-                                        Notice that the answer must be a substring, "pwke" is a subsequence and not a substring.
+                                        Output: [["a"]]
                                     </Typography>
                                 </div>
                             </div>
@@ -282,5 +272,5 @@ const Challenge9: React.FC = () => {
     );
 }
 
-export { Challenge9 };
+export { Challenge10 };
 

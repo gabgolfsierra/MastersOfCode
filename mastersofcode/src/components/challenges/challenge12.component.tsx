@@ -65,11 +65,11 @@ const useStyles = makeStyles(() => ({
 }));
 
 
-const Challenge9: React.FC = () => {
+const Challenge12: React.FC = () => {
     const classes = useStyles();
     const navigate = useNavigate();
     const theme = useTheme();
-    const [code, setCode] = useState('var lengthOfLongestSubstring = function(s) { \n\n\n //Your code here \n\n\n }\n\n\n\n module.exports = { lengthOfLongestSubstring }; ');
+    const [code, setCode] = useState('var isMatch = function(s, p) { \n\n\n //Your code here \n\n\n }\n\n\n\n module.exports = { isMatch }; ');
     interface TestResult {
         passes: { fullTitle: string }[];
         failures: { fullTitle: string, err: { message: string, stack: string } }[];
@@ -90,7 +90,7 @@ const Challenge9: React.FC = () => {
     const submitCode = async () => {
         try {
             setLoading(true);
-            const response = await axios.post("http://localhost:3002/challenge/9", { code });
+            const response = await axios.post("http://localhost:3002/challenge/12", { code });
             console.log(response.data);
             setTestResults(response.data.output);
         } catch (error: any) {
@@ -117,7 +117,7 @@ const Challenge9: React.FC = () => {
         if (testResults) {
             const passMessages = testResults.passes.map(() => ({
                 type: "success",
-                message: "CONGRATULATIONS!! YOU EARNED 100 POINTS!",
+                message: "CONGRATULATIONS!! YOU EARNED 500 POINTS!",
             }));
             const failMessages = testResults.failures.map((failure) => ({
                 type: "error",
@@ -179,8 +179,10 @@ const Challenge9: React.FC = () => {
         </Button><Box className={classes.root}>
                 <Container className={classes.editorContainer}>
                     <Typography variant="h6" className={classes.title}>
-                    Given a string s, find the length of the longest substring without repeating characters. 
-                    ( A substring is a contiguous non-empty sequence of characters within a string.)
+                    Given an input string s and a pattern p, implement regular expression matching with support for '.' and '*' where:
+
+                    '.' Matches any single character.​​​​
+                    '*' Matches zero or more of the preceding element
                     </Typography>
                     <div className={classes.codeMirror}>
                         <CodeMirror
@@ -223,13 +225,13 @@ const Challenge9: React.FC = () => {
                                 </Typography>
                                 <div style={{ display: 'flex', flexDirection: 'column' }}>
                                     <Typography variant="overline" className={classes.par}>
-                                        Input: s = "abcabcbb"
+                                        Input: s = "aa", p = "a"
                                     </Typography>
                                     <Typography variant="overline" className={classes.par}>
-                                        Output: 3
+                                        Output: false
                                     </Typography>
                                     <Typography variant="overline" className={classes.par}>
-                                    Explanation: The answer is "abc", with the length of 3.
+                                        Explanation: "a" does not match the entire string "aa".
                                     </Typography>
                                 </div>
                             </div>
@@ -240,13 +242,13 @@ const Challenge9: React.FC = () => {
                                 </Typography>
                                 <div style={{ display: 'flex', flexDirection: 'column' }}>
                                     <Typography variant="overline" className={classes.par}>
-                                        Input: s = "bbbbb"
+                                        Input: s = "aa", p = "a*"
                                     </Typography>
                                     <Typography variant="overline" className={classes.par}>
-                                        Output: 1
+                                        Output: true
                                     </Typography>
                                     <Typography variant="overline" className={classes.par}>
-                                    Explanation: The answer is "b", with the length of 1.
+                                        Explanation: '*' means zero or more of the preceding element, 'a'. Therefore, by repeating 'a' once, it becomes "aa".
                                     </Typography>
                                 </div>
                             </div>
@@ -257,14 +259,13 @@ const Challenge9: React.FC = () => {
                                 </Typography>
                                 <div style={{ display: 'flex', flexDirection: 'column' }}>
                                     <Typography variant="overline" className={classes.par}>
-                                        Input:  s = "pwwkew"
+                                        Input:  s = "ab", p = ".*"
                                     </Typography>
                                     <Typography variant="overline" className={classes.par}>
-                                        Output: 3
+                                        Output: true
                                     </Typography>
                                     <Typography variant="overline" className={classes.par}>
-                                    Explanation: The answer is "wke", with the length of 3.
-                                        Notice that the answer must be a substring, "pwke" is a subsequence and not a substring.
+                                         Explanation: ".*" means "zero or more (*) of any character (.)".
                                     </Typography>
                                 </div>
                             </div>
@@ -282,5 +283,5 @@ const Challenge9: React.FC = () => {
     );
 }
 
-export { Challenge9 };
+export { Challenge12 };
 

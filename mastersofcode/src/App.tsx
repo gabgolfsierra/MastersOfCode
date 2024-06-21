@@ -16,6 +16,9 @@ import { Challenge6 } from "./components/challenges/challenge6.component";
 import { Challenge7 } from "./components/challenges/challenge7.component";
 import { Challenge8 } from "./components/challenges/challenge8.component";
 import { Challenge9 } from "./components/challenges/challenge9.component";
+import { Challenge10 } from "./components/challenges/challenge10.component";
+import { Challenge11 } from "./components/challenges/challenge11.component";
+import { Challenge12 } from "./components/challenges/challenge12.component";
 
 const darkTheme = createTheme({
   palette: {
@@ -41,6 +44,9 @@ const App: React.FC = () => {
         <Route path="/challenge/7" element={<PrivateRoute><Challenge7 /></PrivateRoute>} />
         <Route path="/challenge/8" element={<PrivateRoute><Challenge8 /></PrivateRoute>} />
         <Route path="/challenge/9" element={<PrivateRoute><Challenge9 /></PrivateRoute>} />
+        <Route path="/challenge/10" element={<PrivateRoute><Challenge10 /></PrivateRoute>} />
+        <Route path="/challenge/11" element={<PrivateRoute><Challenge11 /></PrivateRoute>} />
+        <Route path="/challenge/12" element={<PrivateRoute><Challenge12 /></PrivateRoute>} />
         <Route path="/login" element={<LoginPage />} />
         
         <Route path="/signup" element={<SignupPage />} />
