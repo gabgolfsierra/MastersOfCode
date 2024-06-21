@@ -1,4 +1,9 @@
+
 import React, { useEffect, useState } from "react";
+
+import { Typography, Box, List, ListItem, ListItemText, FormControl, InputLabel, Select, SelectChangeEvent, IconButton, Menu, MenuItem } from "@mui/material";
+import { makeStyles } from "@mui/styles";
+
 import {
   Typography,
   Box,
@@ -15,6 +20,7 @@ import {
   Toolbar,
   SelectChangeEvent,
 } from "@mui/material";
+
 import { Link } from "react-router-dom";
 import MenuIcon from "@mui/icons-material/Menu";
 import styled from "@emotion/styled";
@@ -42,7 +48,11 @@ const StyledPaper = styled(Paper)`
 const HomePage: React.FC = () => {
   const classes = useStyles();
   const [difficultyFilter, setDifficultyFilter] = useState<string>("");
+
   const [completedChallenges, setCompletedChallenges] = useState<string[]>([]);
+
+  const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
+
 
   const handleFilterChange = (event: SelectChangeEvent<string>) => {
     setDifficultyFilter(event.target.value);
@@ -54,12 +64,32 @@ const HomePage: React.FC = () => {
   }, []);
 
 
+  const handleMenuClose = () => {
+    setAnchorEl(null);
+  };
+
+  const [completedChallenges, setCompletedChallenges] = useState<string[]>([]);
+  const [points, setPoints] = useState<number | null>(null);
+  const handleFilterChange = (event: SelectChangeEvent<string>) => {
+    setDifficultyFilter(event.target.value);
+  };
+
+
+
   const filteredChallenges = challenges.filter(
     (challenge) =>
       difficultyFilter === "" || challenge.difficulty === difficultyFilter
   );
 
   return (
+
+    <div className={classes.pageContainer}>
+      
+      <IconButton className={classes.menuButton} onClick={handleMenuClick}>
+        <MenuIcon />
+      </IconButton>
+
+
     <>
       <div className={classes.header}>
         <Box sx={{ flexGrow: 1 }} color="#1a1a1a">
@@ -75,11 +105,14 @@ const HomePage: React.FC = () => {
                 <MenuIcon />
               </IconButton>
               <Typography variant="h6" color="#FF8C00" fontFamily={"-moz-initial"} component="div" sx={{ flexGrow: 1 }}>
-                Your Points:
+
+                Your Points: {points !== null ? points : '0'}
+
               </Typography>
             </Toolbar>
           </AppBar>
         </Box>
+
 
         <Box >
           <Typography marginTop={"30px"} fontFamily={"-moz-initial"} color="#FF8C00" variant="h2" className={classes.title}>

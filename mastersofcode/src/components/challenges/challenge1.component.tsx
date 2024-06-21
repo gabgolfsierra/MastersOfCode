@@ -103,8 +103,24 @@ const Challenge1: React.FC = () => {
       const response = await axios.post("http://localhost:3002/challenge/1", { code });
       console.log(response.data);
       setTestResults(response.data.output);
+      if (response.data.passed) {
+        console.log("PASSSOUUU")
+        // If challenge passed, complete challenge and attribute points
+        const completeResponse = await axios.post("http://localhost:3002/challenge/complete", { points: 25 });
+        console.log(completeResponse.data);
+        setMessages([{
+          type: "success",
+          message: `CONGRATULATIONS!! YOU EARNED ${completeResponse.data.points} POINTS!`,
+        }]);
+      } else {
+        setMessages([{
+          type: "error",
+          message: "FAIL! TRY AGAIN",
+        }]);
+      }
+      setOpen(true);
     } catch (error: any) {
-      console.error("Error to send your code: ", error);
+      console.error("Error sending your code: ", error);
       setTestResults(null);
       let errorMessage = error.toString() || "Unknown error occurred";
       setErrorLogs([...errorLogs, errorMessage]);
