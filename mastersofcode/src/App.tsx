@@ -30,36 +30,30 @@ const darkTheme = createTheme({
 
 const App: React.FC = () => {
   return (
-
-      <><Routes /><ThemeProvider theme={darkTheme}>
-      <AuthProvider>
-
-        <Routes>
-          <Route path="/" element={<PrivateRoute><HomePage /></PrivateRoute>} />
-          <Route path="/challenge/1" element={<PrivateRoute><Challenge1 /></PrivateRoute>} />
-          <Route path="/challenge/2" element={<PrivateRoute><Challenge2 /></PrivateRoute>} />
-          <Route path="/challenge/3" element={<PrivateRoute><Challenge3 /></PrivateRoute>} />
-          <Route path="/challenge/4" element={<PrivateRoute><Challenge4 /></PrivateRoute>} />
-          <Route path="/challenge/5" element={<PrivateRoute><Challenge5 /></PrivateRoute>} />
-          <Route path="/challenge/6" element={<PrivateRoute><Challenge6 /></PrivateRoute>} />
-          <Route path="/challenge/7" element={<PrivateRoute><Challenge7 /></PrivateRoute>} />
-          <Route path="/challenge/8" element={<PrivateRoute><Challenge8 /></PrivateRoute>} />
-          <Route path="/challenge/9" element={<PrivateRoute><Challenge9 /></PrivateRoute>} />
-          <Route path="/challenge/10" element={<PrivateRoute><Challenge10 /></PrivateRoute>} />
-          <Route path="/challenge/11" element={<PrivateRoute><Challenge11 /></PrivateRoute>} />
-          <Route path="/challenge/12" element={<PrivateRoute><Challenge12 /></PrivateRoute>} />
-
-          <Route path="/login" element={<LoginPage />} />
-
-
-
-          <Route path="/login" element={<LoginPage />} />
-
-          <Route path="/signup" element={<SignupPage />} />
-        </Routes>
-
-      </AuthProvider>
-    </ThemeProvider></>
+    <ThemeProvider theme={darkTheme}>
+    <AuthProvider>
+      
+    <Routes>
+        <Route path="/" element={<PrivateRoute><HomePage /></PrivateRoute>} />
+        <Route path="/challenge/1" element={<PrivateRoute><Challenge1 /></PrivateRoute>} />
+        <Route path="/challenge/2" element={<PrivateRoute><Challenge2 /></PrivateRoute>} />
+        <Route path="/challenge/3" element={<PrivateRoute><Challenge3 /></PrivateRoute>} />
+        <Route path="/challenge/4" element={<PrivateRoute><Challenge4 /></PrivateRoute>} />
+        <Route path="/challenge/5" element={<PrivateRoute><Challenge5 /></PrivateRoute>} />
+        <Route path="/challenge/6" element={<PrivateRoute><Challenge6 /></PrivateRoute>} />
+        <Route path="/challenge/7" element={<PrivateRoute><Challenge7 /></PrivateRoute>} />
+        <Route path="/challenge/8" element={<PrivateRoute><Challenge8 /></PrivateRoute>} />
+        <Route path="/challenge/9" element={<PrivateRoute><Challenge9 /></PrivateRoute>} />
+        <Route path="/challenge/10" element={<PrivateRoute><Challenge10 /></PrivateRoute>} />
+        <Route path="/challenge/11" element={<PrivateRoute><Challenge11 /></PrivateRoute>} />
+        <Route path="/challenge/12" element={<PrivateRoute><Challenge12 /></PrivateRoute>} />
+        <Route path="/login" element={<LoginPage />} />
+        
+        <Route path="/signup" element={<SignupPage />} />
+      </Routes>
+      
+    </AuthProvider>
+    </ThemeProvider>
   );
 };
 

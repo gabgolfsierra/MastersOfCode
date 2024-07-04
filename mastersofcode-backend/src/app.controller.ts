@@ -63,8 +63,6 @@ export class AppController {
     const userCode = req.body.code;
 
 
-
-
     fs.writeFileSync('userCode.js', userCode);
 
     const testCode = `
@@ -368,15 +366,9 @@ describe('isPalindrome function', () => {
     });
   }
 
-
  // Integer to English Words Challenge
 
  @Post('/7')
-
-  // Integer to English Words Challenge
-
-  @Post('/7')
-
   async CodeReceiver7(@Request() req, @Response() res): Promise<any> {
     const userCode = req.body.code;
 
@@ -682,6 +674,7 @@ describe('isPalindrome function', () => {
     });
   `;
 
+       
 
 
 
@@ -780,8 +773,4 @@ describe('isPalindrome function', () => {
     });
   }
 
-
 }
-
-
-

@@ -5,8 +5,6 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { AuthModule } from './auth/auth.module';
 import { UserModule } from './users/users.module';
-import { ChallengeModule } from './challenges/challenge.module';
-
 
 @Module({
   imports: [
@@ -20,7 +18,6 @@ import { ChallengeModule } from './challenges/challenge.module';
     }),
     UserModule,
     AuthModule,
-    ChallengeModule,
   ],
   controllers: [AppController],
   providers: [AppService],
